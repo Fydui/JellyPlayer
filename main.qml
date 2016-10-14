@@ -3,12 +3,11 @@ import QtQuick.Window 2.2
 
 Window {
     visible: true
-    width: 1080
-    height: 720
+    width: 1090
+    height: 730
     title: qsTr("JellyPlayer")
 
     MainForm {
         anchors.fill: parent
-
     }
 }
