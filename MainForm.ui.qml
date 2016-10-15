@@ -6,21 +6,20 @@ import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.1
 import QtQuick.Window 2.0
 import QtQuick 2.0
-import QtQuick.LocalStorage 2.0
-import QtQuick.Particles 2.0
-import QtQuick.Templates 2.0
+
 
 Rectangle {
     id: main
 
-    width: 1920//1080
-    height: 1080//720
+    width: 1080//1080
+    height: 720//720
 
     color: "#dcdce3"
+    property alias foot: foot
     clip: true
 
     Image {
-        id: image2
+        id: main_bg
         width: parent.width
         height: parent.height
         source: "///img/img/Qt3.jpg"
@@ -59,21 +58,24 @@ Rectangle {
 
             Rectangle {
                 id: lift
-                y: 2
-                width: 320
+                y: 0
+                width: 300
                 height: 965
                 color: "#191b1f"
+                Layout.minimumWidth: 0
                 opacity: 0.9
                 Layout.fillHeight: true
                 Layout.fillWidth: true
                 Layout.maximumHeight: 965
-                Layout.maximumWidth: 320
+                Layout.maximumWidth: 300
                 clip: true
+
+
             }
 
             Rectangle {
                 id: right
-                x: 325
+                x: 405
                 y: 5
                 width: parent.width//755
                 height: parent.height
@@ -86,15 +88,17 @@ Rectangle {
                 clip: true
 
                 Image {
-                    id: image1
+                    id: right_bg
                     x: 0
                     y: 0
-                    width: parent.width//755
+                    width: 1515
+                    //755
                     height: parent.height//610
                     clip: true
                     //source: "///img/img/background.png"
                 }
             }
+
         }
 
         Rectangle {
@@ -107,11 +111,52 @@ Rectangle {
             Layout.maximumHeight: 60
             Layout.fillWidth: true
             Layout.fillHeight: false
-            clip: false
+            clip: true
+
+            Button {
+                id: button1
+                x: 50
+                y: 13
+                width: 35
+                height: 35
+                Layout.maximumHeight: 40
+                Layout.maximumWidth: 70
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+            }
+
+            Button {
+                id: button2
+                x: 120
+                y: 8
+                width: 45
+                height: 45
+                Layout.maximumHeight: 40
+                Layout.maximumWidth: 70
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+            }
+
+            Button {
+                id: button3
+                x: 200
+                y: 13
+                width: 35
+                height: 35
+                Layout.maximumWidth: 70
+                Layout.maximumHeight: 40
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+            }
+
+
+
+
+
         }
     }
 
-/*
+    /*
     Image {
         id: image2
         width: parent.width
