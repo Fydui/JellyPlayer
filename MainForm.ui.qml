@@ -7,7 +7,6 @@ import QtQuick.Layouts 1.1
 import QtQuick.Window 2.0
 import QtQuick 2.0
 
-
 Rectangle {
     id: main
 
@@ -52,7 +51,7 @@ Rectangle {
             id: middle
             y: 50
             width: parent.width//1080
-            height: 965
+            height: parent.height//965
             Layout.fillHeight: true
             Layout.fillWidth: true
             Layout.minimumHeight: 0
@@ -63,7 +62,7 @@ Rectangle {
                 id: lift
                 y: 0
                 width: 300
-                height: 965
+                height: parent.height//965
                 color: "#191b1f"
                 Layout.minimumWidth: 0
                 opacity: 0.9
@@ -72,6 +71,121 @@ Rectangle {
                 Layout.maximumHeight: 965
                 Layout.maximumWidth: 300
                 clip: true
+                ListView {
+                    id: musiclist
+                    x: 10
+                    y: 5
+                    width: 240
+                    height: parent.height//965//605
+                    spacing: 5
+                    contentWidth: 0
+
+                    model: ListModel {
+                        ListElement {
+                            name: "Grey"
+                            number:"555 3246"
+
+                            //colorCode: "grey"
+                        }
+
+                        ListElement {
+                            name: "Red"
+                            number:"555 3246"
+                            //colorCode: "red"
+                        }
+
+                        ListElement {
+                            name: "Blue"
+                            number:"555 3246"
+                            //colorCode: "blue"
+                        }
+
+                        ListElement {
+                            name: "Green"
+                            colorCode: "green"
+                        }
+                        ListElement {
+                            name: "Grey"
+                            number:"555 3246"
+                            colorCode: "grey"
+                        }
+
+                        ListElement {
+                            name: "Red"
+                            colorCode: "red"
+                        }
+
+                        ListElement {
+                            name: "Blue"
+                            colorCode: "blue"
+                        }
+
+                        ListElement {
+                            name: "Green"
+                            colorCode: "green"
+                        }
+                        ListElement {
+                            name: "Grey"
+                            number:"555 3246"
+                            colorCode: "grey"
+                        }
+
+                        ListElement {
+                            name: "Red"
+                            colorCode: "red"
+                        }
+
+                        ListElement {
+                            name: "Blue"
+                            colorCode: "blue"
+                        }
+
+                        ListElement {
+                            name: "Green"
+                            colorCode: "green"
+                        }
+                        ListElement {
+                            name: "Grey"
+                            number:"555 3246"
+                            colorCode: "grey"
+                        }
+
+                        ListElement {
+                            name: "Red"
+                            colorCode: "red"
+                        }
+
+                        ListElement {
+                            name: "Blue"
+                            colorCode: "blue"
+                        }
+
+                        ListElement {
+                            name: "Green"
+                            colorCode: "green"
+                        }
+                    }
+                    delegate: Item {
+                        x: 5
+                        width: 80
+                        height: 20
+                        Row {
+                            id: row1
+                            Rectangle {
+                                width: 230
+                                height: 20
+                                color: colorCode
+                            }
+
+                            Text {
+                                font.bold: true
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
+                            spacing: 5
+                        }
+                    }
+              }
+
 
             }
 
