@@ -13,15 +13,18 @@ Rectangle {
 
     width: 1080//1080
     height: 720//720
+    Layout.minimumWidth: 1080
+    Layout.minimumHeight: 720
 
     color: "#dcdce3"
-    property alias foot: foot
     clip: true
 
     Image {
         id: main_bg
         width: parent.width
         height: parent.height
+        Layout.minimumWidth: 1080
+        Layout.minimumHeight: 720
         source: "///img/img/Qt3.jpg"
     }
 
@@ -70,7 +73,6 @@ Rectangle {
                 Layout.maximumWidth: 300
                 clip: true
 
-
             }
 
             Rectangle {
@@ -103,6 +105,7 @@ Rectangle {
 
         Rectangle {
             id: foot
+            x: 3
             y: 1015
             width: parent.width//1080
             height: 65
@@ -114,7 +117,7 @@ Rectangle {
             clip: true
 
             Button {
-                id: button1
+                id: last
                 x: 50
                 y: 13
                 width: 35
@@ -126,7 +129,7 @@ Rectangle {
             }
 
             Button {
-                id: button2
+                id: sta_pau
                 x: 120
                 y: 8
                 width: 45
@@ -138,7 +141,7 @@ Rectangle {
             }
 
             Button {
-                id: button3
+                id: next
                 x: 200
                 y: 13
                 width: 35
@@ -149,8 +152,107 @@ Rectangle {
                 Layout.fillWidth: true
             }
 
+            RowLayout {
+                id: footbody
+                x: 270
+                width: 810
+                height: 60
+                spacing: 5
 
 
+                RowLayout {
+                    id: progress
+                    x: 0
+                    y: 20
+                    width: 580
+                    height: 60
+                    spacing: 5
+                    Layout.maximumWidth: 580
+
+                    Text {
+                        id: e_time
+                        y: 0
+                        width: 40
+                        height: 20
+                        text: qsTr("Text")
+                        font.pixelSize: 18
+                    }
+
+                    Slider {
+                        id: bar
+                        x: 50
+                        width: 450
+                        height: 20
+                        Layout.maximumWidth: 550
+                        Layout.maximumHeight: 20
+                        Layout.fillWidth: true
+                        value: 0.5
+                    }
+
+                    Text {
+                        id: s_time
+                        x: 515
+                        y: 0
+                        width: 40
+                        height: 20
+                        text: qsTr("Text")
+                        font.pixelSize: 18
+                    }
+
+
+                }
+
+
+                RowLayout {
+                    id: vol_body
+                    x: 580
+                    width: 230
+                    height: 60
+                    Layout.minimumHeight: 20
+                    Layout.minimumWidth: 230
+                    Layout.maximumHeight: 20
+                    Layout.maximumWidth: 230
+                    Layout.fillWidth: false
+
+
+                    Image {
+                        id: vol_pix
+                        x: 5
+                        y: 20
+                        width: 20
+                        height: 20
+                        Layout.maximumHeight: 20
+                        Layout.maximumWidth: 20
+                        source: "///img/img/vol.png"
+                    }
+
+                    Slider {
+                        id: volume
+                        x: 25
+                        y: 20
+                        width: 120
+                        height: 20
+                        Layout.maximumHeight: 20
+                        Layout.maximumWidth: 120
+                        Layout.fillWidth: true
+                        value: 0.5
+                    }
+
+                    Button {
+                        id: loop
+                        x: 175
+                        y: 20
+                        width: 30
+                        height: 20
+                        text: qsTr("")
+                        Layout.minimumHeight: 20
+                        Layout.minimumWidth: 30
+                        Layout.maximumHeight: 20
+                        Layout.maximumWidth: 30
+                    }
+
+                }
+            }
 
 
         }

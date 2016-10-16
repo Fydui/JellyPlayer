@@ -9,5 +9,6 @@
         <file>img/Qt1.jpg</file>
         <file>img/Qt2.png</file>
         <file>img/Qt3.jpg</file>
+        <file>img/vol.png</file>
     </qresource>
 </RCC>
