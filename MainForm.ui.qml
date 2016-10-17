@@ -84,7 +84,6 @@ Rectangle {
                         ListElement {
                             name: "Grey"
                             number:"555 3246"
-
                             //colorCode: "grey"
                         }
 

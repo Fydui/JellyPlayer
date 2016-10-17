@@ -16,15 +16,4 @@ Window {
         anchors.fill: parent
     }
 
-    MouseArea{
-        anchors.fill: parent
-        onClicked: {
-            music.star();
-        }
-    }
-    Music {
-        id: music
-        onStart: new ShowMusic()
-    }
-
 }

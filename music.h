@@ -12,17 +12,27 @@ using namespace std;
 class Music: public QObject
 {
     Q_OBJECT
+
+
 signals:
     void start();
-public slots:
-    explicit Music(QObject *p);
-    Q_INVOKABLE string ShowMusic();
-    Q_INVOKABLE void StartPlay();
+
+
+public:
+    string list[1000];
+    Music(QObject *p = 0);
+
+    Q_INVOKABLE void ShowMusicList(const char* path);
+    /*Q_INVOKABLE void StartPlay();
     Q_INVOKABLE void PausePlay();
     Q_INVOKABLE void LastMusic();
     Q_INVOKABLE void NextMusic();
     Q_INVOKABLE void VOL(int v);  //调整声音
     Q_INVOKABLE void MusicLoop(bool l); //是否循环播放 默认列表顺次循环
+*/
+public slots:
+
+
 
 };
 

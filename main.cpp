@@ -6,6 +6,7 @@
 
 int main(int argc, char *argv[])
 {
+
     QGuiApplication app(argc, argv);
 
     qmlRegisterType<Music>("my.Music",1,0,"Music");
