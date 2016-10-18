@@ -6,6 +6,8 @@ import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.1
 import QtQuick.Window 2.0
 import QtQuick 2.0
+import my.Music 1.0
+
 
 Rectangle {
     id: main
@@ -75,111 +77,60 @@ Rectangle {
                     id: musiclist
                     x: 10
                     y: 5
-                    width: 240
+                    width: 300
                     height: parent.height//965//605
                     spacing: 5
                     contentWidth: 0
 
                     model: ListModel {
+
                         ListElement {
-                            name: "Grey"
-                            number:"555 3246"
-                            //colorCode: "grey"
+                            name: "List1"
+                            text: "test!!"
+                            colorCode: "Grey"
                         }
 
                         ListElement {
-                            name: "Red"
-                            number:"555 3246"
-                            //colorCode: "red"
+                            name: "List2"
+                            text: "test!!"
+                            colorCode: "Grey"
                         }
 
                         ListElement {
-                            name: "Blue"
-                            number:"555 3246"
-                            //colorCode: "blue"
+                            name: "List3"
+                            text: "test!!"
+                            colorCode: "Grey"
                         }
 
                         ListElement {
-                            name: "Green"
-                            colorCode: "green"
-                        }
-                        ListElement {
-                            name: "Grey"
-                            number:"555 3246"
-                            colorCode: "grey"
+                            name: "List4"
+                            text: "test!!"
+                            colorCode: "Grey"
                         }
 
-                        ListElement {
-                            name: "Red"
-                            colorCode: "red"
-                        }
-
-                        ListElement {
-                            name: "Blue"
-                            colorCode: "blue"
-                        }
-
-                        ListElement {
-                            name: "Green"
-                            colorCode: "green"
-                        }
-                        ListElement {
-                            name: "Grey"
-                            number:"555 3246"
-                            colorCode: "grey"
-                        }
-
-                        ListElement {
-                            name: "Red"
-                            colorCode: "red"
-                        }
-
-                        ListElement {
-                            name: "Blue"
-                            colorCode: "blue"
-                        }
-
-                        ListElement {
-                            name: "Green"
-                            colorCode: "green"
-                        }
-                        ListElement {
-                            name: "Grey"
-                            number:"555 3246"
-                            colorCode: "grey"
-                        }
-
-                        ListElement {
-                            name: "Red"
-                            colorCode: "red"
-                        }
-
-                        ListElement {
-                            name: "Blue"
-                            colorCode: "blue"
-                        }
-
-                        ListElement {
-                            name: "Green"
-                            colorCode: "green"
-                        }
                     }
                     delegate: Item {
                         x: 5
-                        width: 80
+                        width: 300
                         height: 20
+
                         Row {
                             id: row1
                             Rectangle {
-                                width: 230
+                                width: 300
                                 height: 20
-                                color: colorCode
+                                color:colorCode
+                                Text {
+                                    x:10
+                                    y:2
+                                    color: "#C8C8C8"
+                                    font.family: "microsoft yahei"
+                                    font.pixelSize: 16
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    text: name+"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                                }
                             }
 
-                            Text {
-                                font.bold: true
-                                anchors.verticalCenter: parent.verticalCenter
-                            }
                             spacing: 5
                         }
                     }
