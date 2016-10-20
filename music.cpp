@@ -10,16 +10,9 @@ void Music::ShowMusicList()
 {
     //const char* path_ = path.data();
     //const char* path_ = path.c_str();
-    /*QQmlEngine engine;
-    QStringListModel model;
+    //QStringListModel model;
     QQmlContext* context  = new QQmlContext(engine.rootContext());
-    context->setContextProperty("qml/IcejellyMusic/main.qml",&model);
-
-    QQmlComponent component(&engine);
-    component.setData(,QUrl("qml/IcejellyMusic/main.qml"));
-    QObject *window = component.create(context);
-*/
-
+    context->setContextProperty("MUSIC_LIST",this);
     _finddata_t file;
      int k,i = 0;
      long HANDLE;
@@ -29,7 +22,27 @@ void Music::ShowMusicList()
       k = _findnext( HANDLE, &file );
       i++;
      }
+
      _findclose( HANDLE );
+     /*
+    QQmlEngine engine;
+    QStringListModel model;
+    QStringList lis;
+    QQmlContext* context  = new QQmlContext(engine.rootContext());
+    context->setContextProperty("myModel",&model);
+    QByteArray* da = new QByteArray;
+
+    int i = 0;
+    while(this->list[i] != ""){
+        QString a = QString::number(list[i]);
+        a = "List"
+        da->append(a);
+    }
+    model.setStringList(list);
+    QQmlComponent component(&engine);
+    component.setData(da,QUrl());
+    QObject *window = component.create(context);*/
+
      return;
 }
 
@@ -47,6 +60,7 @@ void Music::StartPlay(string name)
     this->now->setVolume(this->vol);
     this->now->play();
 }
+
 
 void Music::PausePlay(){
     this->now->pause();

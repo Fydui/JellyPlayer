@@ -78,9 +78,21 @@ Window {
                     contentWidth: 0
 
                     model: ListModel {
+                    Connections {
+                        target: MUSIC_LIST
+                        onMusiclist: {
+                            new MUSIC_LIST. ShowMusicList();
+                            var i = 0;
+                            while(MUSIC_LIST.list[i] !== ""){
+                                var info = {
+                                    name: name[i],
+                                    colorCode: "Gary"
+                                };
 
-
+                            }
+                        }
                     }
+                }
                     delegate: Item {
                         x: 5
                         width: 300

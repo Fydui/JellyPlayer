@@ -14,10 +14,9 @@ int main(int argc, char *argv[])
         viewer.showExpanded();
     qmlRegisterType<Music>("my.Music",1,0,"Music");
 
+
     QQmlApplicationEngine engine;
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
-
-
 
     return app.exec();
 }
