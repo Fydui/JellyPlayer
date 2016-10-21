@@ -1,5 +1,6 @@
 #include "music.h"
 using namespace std;
+extern  QQmlApplicationEngine engine;
 Music::Music(QObject *p):
     QObject(p)
 {
@@ -76,7 +77,7 @@ void Music::LastMusic(){
 }
 
 void Music::NextMusic(){
-    if(list[tag+1 != ""])
+    if(list[tag+1]  != "")
         this->StartPlay(this->list[tag+1]);
 }
 bool Music::MusicLoop(bool l){

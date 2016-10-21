@@ -88,9 +88,12 @@ Window {
                                     name: name[i],
                                     colorCode: "Gary"
                                 };
-
+                                mlist.parent.append(info)
                             }
                         }
+                    }
+                    ListElement {
+                        id: mlist;
                     }
                 }
                     delegate: Item {

@@ -10,24 +10,26 @@
 #include <QQmlContext>
 #include <QStringListModel>
 #include <QQmlComponent>
+#include <QQmlApplicationEngine>
+
 using namespace std;
 
 class Music: public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(string list READ list WRITE setlist NOTIFY listChanged)
-signals:
+    //Q_PROPERTY(string list READ list WRITE list)
+//signals:
      //
 public slots:
      void StartPlay(string name);
      void LastMusic();
      void NextMusic();
      void PausePlay();
-     void ViewMusicList();
+     //void ViewMusicList();
 public:
     Music(QObject *p = 0);
     ~Music(){delete now;}
-    Q_INVOKABLE string list[1001];
+    string list[1001];
     Q_INVOKABLE void ShowMusicList();
     Q_INVOKABLE void VOL(int v= 80);  //调整声音
     Q_INVOKABLE bool MusicLoop(bool l=false); //是否循环播放 默认列表顺次循环
