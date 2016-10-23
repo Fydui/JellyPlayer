@@ -8,31 +8,35 @@
 #include <fstream>
 #include <iostream>
 #include <QQmlContext>
-#include <QStringListModel>
-#include <QQmlComponent>
+//#include <QStringListModel>
+//#include <QQmlComponent>
 #include <QQmlApplicationEngine>
-
+#include <QQuickView>
+//#include <QVariant>
+#include <QTextCodec>
 using namespace std;
 
 class Music: public QObject
 {
     Q_OBJECT
-    //Q_PROPERTY(string list READ list WRITE list)
-//signals:
-     //
+    //Q_PROPERTY(QString name READ Name WRITE setName NOTIFY Cname)
+signals:
+    void play_pause();
+    void cname();
 public slots:
-     void StartPlay(string name);
+     void StartPlay(QString name);
      void LastMusic();
      void NextMusic();
      void PausePlay();
-     //void ViewMusicList();
 public:
     Music(QObject *p = 0);
     ~Music(){delete now;}
-    string list[1001];
+    QString list[1001];
+    QString name;
     Q_INVOKABLE void ShowMusicList();
     Q_INVOKABLE void VOL(int v= 80);  //调整声音
     Q_INVOKABLE bool MusicLoop(bool l=false); //是否循环播放 默认列表顺次循环
+    Q_INVOKABLE QQuickView *ViewMusicList();
 
 private:
     QMediaPlayer* now;

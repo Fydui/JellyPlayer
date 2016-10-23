@@ -1,6 +1,9 @@
-#include "music.h"
+ï»¿#include "music.h"
+
 using namespace std;
-extern  QQmlApplicationEngine engine;
+extern  QQmlApplicationEngine* engine;
+//QStringListModel model;
+
 Music::Music(QObject *p):
     QObject(p)
 {
@@ -9,51 +12,32 @@ Music::Music(QObject *p):
 
 void Music::ShowMusicList()
 {
-    //const char* path_ = path.data();
-    //const char* path_ = path.c_str();
-    //QStringListModel model;
-    QQmlContext* context  = new QQmlContext(engine.rootContext());
-    context->setContextProperty("MUSIC_LIST",this);
+    QTextCodec* codec = QTextCodec::codecForName("GBK");
+    qmlRegisterType<Music>("my.Music",1,0,"Music");
+    engine = new QQmlApplicationEngine;
     _finddata_t file;
-     int k,i = 0;
-     long HANDLE;
-     k = HANDLE = _findfirst( "music/*.mp3", &file );
-     while( k != -1 ){
-      this->list[i+1] = file.name;
-      k = _findnext( HANDLE, &file );
-      i++;
-     }
-
-     _findclose( HANDLE );
-     /*
-    QQmlEngine engine;
-    QStringListModel model;
-    QStringList lis;
-    QQmlContext* context  = new QQmlContext(engine.rootContext());
-    context->setContextProperty("myModel",&model);
-    QByteArray* da = new QByteArray;
-
-    int i = 0;
-    while(this->list[i] != ""){
-        QString a = QString::number(list[i]);
-        a = "List"
-        da->append(a);
+    int k,i = 0;
+    long HANDLE;
+    k = HANDLE = _findfirst( "music/*.mp3", &file );
+    while( k != -1 ){
+        QString str = codec->toUnicode(file.name);
+        this->list[i+1] = str;
+        k = _findnext( HANDLE, &file );
+        i++;
     }
-    model.setStringList(list);
-    QQmlComponent component(&engine);
-    component.setData(da,QUrl());
-    QObject *window = component.create(context);*/
-
-     return;
+    _findclose( HANDLE );
+    //QQmlContext* context  = new QQmlContext(engine->rootContext());
+    //context->setContextProperty("MUSIC_LIST",this);
+    return;
 }
 
-void Music::StartPlay(string name)
+void Music::StartPlay(QString name)
 {
-    delete this->now; //°ÑÔ­À´µÄÉ¾ÁË
-    QString name_ = QString::fromStdString(name);
+    delete this->now; //æŠŠåŽŸæ¥çš„åˆ äº†
+    //QString name_ = QString::fromStdString(name);
     this->now = new QMediaPlayer;
     connect(this->now, SIGNAL(positionChanged(qint64)), this, SLOT(positionChanged(qint64)));
-    this->now->setMedia(QUrl::fromLocalFile("music/"+name_+".mp3"));//Ïà¶ÔÂ·¾¶
+    this->now->setMedia(QUrl::fromLocalFile("music/"+name+".mp3"));//ç›¸å¯¹è·¯å¾„
     for(int i = 1; i < 1001; i++){
         if(this->list[i] == name+".mp3")
             this->tag = i;
@@ -62,25 +46,39 @@ void Music::StartPlay(string name)
     this->now->play();
 }
 
-
 void Music::PausePlay(){
     this->now->pause();
 }
-
 void Music::VOL(int v){
     this->now->setVolume(v);
 }
 
 void Music::LastMusic(){
-    if(list[tag-1] != "")
-     this->StartPlay(this->list[tag-1]);
+    if(this->list[tag-1] != "")
+        this->StartPlay(this->list[tag-1]);
 }
 
 void Music::NextMusic(){
-    if(list[tag+1]  != "")
+    if(this->list[tag+1]  != "")
         this->StartPlay(this->list[tag+1]);
 }
 bool Music::MusicLoop(bool l){
     if(l)
-        this->StartPlay(list[tag]);
+        this->StartPlay(this->list[tag]);
+}
+
+QQuickView* Music::ViewMusicList()
+{
+    QStringList dataList;
+    int a = 1;
+    while(this->list[a] != ""){
+        //QString zhuan = QString::fromStdString(list[i]);
+        dataList.append(this->list[a]);
+        a++;
+    }
+    QQuickView* view;
+    QQmlContext *ctxt = view->rootContext();
+    ctxt->setContextProperty("myModel", QVariant::fromValue(dataList));
+    view->setSource(QUrl(QStringLiteral("qrc:/main.qml")));
+    return view;
 }

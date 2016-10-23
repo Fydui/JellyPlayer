@@ -68,6 +68,11 @@ Window {
                 Layout.maximumHeight: 965
                 Layout.maximumWidth: 300
                 clip: true
+
+                Component {
+                    id: mylist
+                    Text {text: "a"}
+                }
                 ListView {
                     id: musiclist
                     x: 10
@@ -77,25 +82,8 @@ Window {
                     spacing: 5
                     contentWidth: 0
 
-                    model: ListModel {
-                    Connections {
-                        target: MUSIC_LIST
-                        onMusiclist: {
-                            new MUSIC_LIST. ShowMusicList();
-                            var i = 0;
-                            while(MUSIC_LIST.list[i] !== ""){
-                                var info = {
-                                    name: name[i],
-                                    colorCode: "Gary"
-                                };
-                                mlist.parent.append(info)
-                            }
-                        }
-                    }
-                    ListElement {
-                        id: mlist;
-                    }
-                }
+
+                    model:myModel
                     delegate: Item {
                         x: 5
                         width: 300
@@ -106,25 +94,37 @@ Window {
                             Rectangle {
                                 width: 300
                                 height: 20
-                                color:colorCode
+                                color: "Gray"
                                 Text {
+                                    id: musicname
                                     x:10
                                     y:2
                                     color: "#C8C8C8"
                                     font.family: "microsoft yahei"
                                     font.pixelSize: 16
                                     anchors.verticalCenter: parent.verticalCenter
-                                    text: name+".mp3"
+                                    text: qsTr(modelData);
 
-                                    MediaPlayer {
+
+                                    /*MediaPlayer {
                                         id: playMusic
-                                        source: "E:/Code/cpp/IcejellyMusic/music/"+name+".mp3"
+                                        source: "E:/Code/cpp/IcejellyMusic/music/"+modelData//+".mp3"
+                                    }*/
+                                    MouseArea {
+                                        //property Music myMusic;
+                                        property Music myData: Music {}
+                                        id: playmusic
+                                        anchors.fill: parent
+                                        onPressed:  {
+                                                new Music.StartPlay();
+                                        }
                                     }
+                                    /*
                                     MouseArea {
                                         id: playArea
                                         anchors.fill: parent
-                                        onPressed:  { playMusic.play() }
-                                    }
+                                        onPressed:  {playMusic.play();}
+                                    }*/
 
                                 }
 
@@ -238,6 +238,7 @@ Window {
                         y: 0
                         width: 40
                         height: 20
+                        color: "#C8C8C8";
                         text: qsTr("Text")
                         font.pixelSize: 18
                     }
@@ -259,6 +260,7 @@ Window {
                         y: 0
                         width: 40
                         height: 20
+                        color: "#C8C8C8"
                         text: qsTr("Text")
                         font.pixelSize: 18
                     }
