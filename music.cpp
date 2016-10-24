@@ -26,18 +26,15 @@ void Music::ShowMusicList()
         i++;
     }
     _findclose( HANDLE );
-    //QQmlContext* context  = new QQmlContext(engine->rootContext());
-    //context->setContextProperty("MUSIC_LIST",this);
     return;
 }
 
-void Music::StartPlay(QString name)
+void Music::startPlay(QString name)
 {
     delete this->now; //把原来的删了
-    //QString name_ = QString::fromStdString(name);
     this->now = new QMediaPlayer;
-    connect(this->now, SIGNAL(positionChanged(qint64)), this, SLOT(positionChanged(qint64)));
-    this->now->setMedia(QUrl::fromLocalFile("music/"+name+".mp3"));//相对路径
+    //QObject::connect(now, SIGNAL(positionChanged(qint64)), this, SLOT(positionChanged(qint64)));
+    this->now->setMedia(QUrl("E:/Code/cpp/IcejellyMusic/music/"+name));//相对路径
     for(int i = 1; i < 1001; i++){
         if(this->list[i] == name+".mp3")
             this->tag = i;
@@ -54,17 +51,17 @@ void Music::VOL(int v){
 }
 
 void Music::LastMusic(){
-    if(this->list[tag-1] != "")
-        this->StartPlay(this->list[tag-1]);
+    //if(this->list[tag-1] != "")
+        //this->StartPlay(this->list[tag-1]);
 }
 
 void Music::NextMusic(){
-    if(this->list[tag+1]  != "")
-        this->StartPlay(this->list[tag+1]);
+    //if(this->list[tag+1]  != "")
+        //this->StartPlay(this->list[tag+1]);
 }
 bool Music::MusicLoop(bool l){
-    if(l)
-        this->StartPlay(this->list[tag]);
+    //if(l)
+        //this->StartPlay(this->list[tag]);
 }
 
 QQuickView* Music::ViewMusicList()
@@ -81,4 +78,9 @@ QQuickView* Music::ViewMusicList()
     ctxt->setContextProperty("myModel", QVariant::fromValue(dataList));
     view->setSource(QUrl(QStringLiteral("qrc:/main.qml")));
     return view;
+}
+
+void Music::test(QString a)
+{
+    this->startPlay(a);
 }

@@ -111,14 +111,11 @@ Window {
                                         source: "E:/Code/cpp/IcejellyMusic/music/"+modelData//+".mp3"
                                     }*/
                                     MouseArea {
-                                        //property Music myMusic;
-                                        property Music myData: Music {}
-                                        id: playmusic
-                                        anchors.fill: parent
-                                        onPressed:  {
-                                                new Music.StartPlay();
-                                        }
+                                        id: playArea
+                                        anchors.fill:  parent
+                                        onClicked: {myPlay.startPlay(modelData)}
                                     }
+
                                     /*
                                     MouseArea {
                                         id: playArea
@@ -129,7 +126,6 @@ Window {
                                 }
 
                             }
-
                             spacing: 5
                         }
                     }

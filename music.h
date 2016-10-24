@@ -1,4 +1,4 @@
-#ifndef MUSIC_H
+ï»¿#ifndef MUSIC_H
 #define MUSIC_H
 
 #include <QObject>
@@ -23,25 +23,29 @@ class Music: public QObject
 signals:
     void play_pause();
     void cname();
+    void positionChanged(qint64);
 public slots:
-     void StartPlay(QString name);
+     //Q_INVOKABLE void StartPlay();
      void LastMusic();
      void NextMusic();
      void PausePlay();
+
 public:
     Music(QObject *p = 0);
     ~Music(){delete now;}
     QString list[1001];
     QString name;
+    Q_INVOKABLE void startPlay(QString name);
+    Q_INVOKABLE void test(QString a);
     Q_INVOKABLE void ShowMusicList();
-    Q_INVOKABLE void VOL(int v= 80);  //µ÷ÕûÉùÒô
-    Q_INVOKABLE bool MusicLoop(bool l=false); //ÊÇ·ñÑ­»·²¥·Å Ä¬ÈÏÁÐ±íË³´ÎÑ­»·
+    Q_INVOKABLE void VOL(int v= 80);  //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    Q_INVOKABLE bool MusicLoop(bool l=false); //ï¿½Ç·ï¿½Ñ­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä¬ï¿½ï¿½ï¿½Ð±ï¿½Ë³ï¿½ï¿½Ñ­ï¿½ï¿½
     Q_INVOKABLE QQuickView *ViewMusicList();
 
 private:
     QMediaPlayer* now;
-    int vol = 80;//ÒôÁ¿ Ä¬ÈÏ80
-    int tag = 0; //±ê¼ÇÎª0´ú±íµÚÒ»¸öÒôÀÖÎÄ¼þ
+    int vol = 80;//ï¿½ï¿½ï¿½ï¿½ Ä¬ï¿½ï¿½80
+    int tag = 0; //ï¿½ï¿½ï¿½ï¿½Îª0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½
 };
 
 #endif // MUSIC_H
