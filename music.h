@@ -26,18 +26,19 @@ signals:
     void positionChanged(qint64);
 public slots:
      //Q_INVOKABLE void StartPlay();
-     void LastMusic();
-     void NextMusic();
-     void PausePlay();
+
 
 public:
     Music(QObject *p = 0);
-    ~Music(){delete now;}
+    ~Music();
     QString list[1001];
     QString name;
     Q_INVOKABLE void startPlay(QString name);
     Q_INVOKABLE void test(QString a);
     Q_INVOKABLE void ShowMusicList();
+    Q_INVOKABLE void lastMusic();
+    Q_INVOKABLE void nextMusic();
+    Q_INVOKABLE void pausePlay();
     Q_INVOKABLE void VOL(int v= 80);  //��������
     Q_INVOKABLE bool MusicLoop(bool l=false); //�Ƿ�ѭ������ Ĭ���б�˳��ѭ��
     Q_INVOKABLE QQuickView *ViewMusicList();
@@ -46,6 +47,7 @@ private:
     QMediaPlayer* now;
     int vol = 80;//���� Ĭ��80
     int tag = 0; //����Ϊ0������һ�������ļ�
+    bool k = false;
 };
 
 #endif // MUSIC_H

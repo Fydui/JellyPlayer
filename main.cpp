@@ -26,6 +26,6 @@ int main(int argc, char *argv[])
     ctxt->setContextProperty("myModel", QVariant::fromValue(dataList));
 
     view.setSource(QUrl(QStringLiteral("qrc:/main.qml")));
-    a->play_pause();
+    //a->play_pause();
     return app.exec();
 }

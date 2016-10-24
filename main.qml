@@ -185,6 +185,9 @@ Window {
                 Layout.maximumWidth: 70
                 Layout.fillHeight: true
                 Layout.fillWidth: true
+                onClicked: {
+                    myPlay.lastMusic();
+                }
             }
 
             Button {
@@ -198,6 +201,10 @@ Window {
                 Layout.fillHeight: true
                 Layout.fillWidth: true
 
+                onClicked: {
+                    myPlay.pausePlay();
+                }
+
             }
 
             Button {
@@ -210,6 +217,9 @@ Window {
                 Layout.maximumHeight: 40
                 Layout.fillHeight: true
                 Layout.fillWidth: true
+                onClicked: {
+                    myPlay.nextMusic();
+                }
             }
 
             RowLayout {

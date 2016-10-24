@@ -10,8 +10,14 @@ Music::Music(QObject *p):
     //
 }
 
+Music::~Music()
+{
+    delete now;
+    //delete list;
+}
 void Music::ShowMusicList()
 {
+
     QTextCodec* codec = QTextCodec::codecForName("GBK");
     qmlRegisterType<Music>("my.Music",1,0,"Music");
     engine = new QQmlApplicationEngine;
@@ -36,32 +42,41 @@ void Music::startPlay(QString name)
     //QObject::connect(now, SIGNAL(positionChanged(qint64)), this, SLOT(positionChanged(qint64)));
     this->now->setMedia(QUrl("E:/Code/cpp/IcejellyMusic/music/"+name));//相对路径
     for(int i = 1; i < 1001; i++){
-        if(this->list[i] == name+".mp3")
-            this->tag = i;
+        if(this->list[i] == name)
+            tag = i;
     }
     this->now->setVolume(this->vol);
     this->now->play();
 }
 
-void Music::PausePlay(){
-    this->now->pause();
+void Music::pausePlay(){
+
+    if(this->k == false){
+        this->now->pause();
+        k=true;
+    }
+    else{
+        this->now->play();
+        k=false;
+    }
 }
-void Music::VOL(int v){
+void Music::VOL(int v){    
     this->now->setVolume(v);
 }
 
-void Music::LastMusic(){
-    //if(this->list[tag-1] != "")
-        //this->StartPlay(this->list[tag-1]);
+void Music::lastMusic(){
+    if(this->list[tag-1] != "")
+        this->startPlay(this->list[tag-1]);
 }
 
-void Music::NextMusic(){
-    //if(this->list[tag+1]  != "")
-        //this->StartPlay(this->list[tag+1]);
+void Music::nextMusic(){
+    if(this->list[tag+1]  != "")
+        this->startPlay(this->list[tag+1]);
+
 }
 bool Music::MusicLoop(bool l){
-    //if(l)
-        //this->StartPlay(this->list[tag]);
+    if(l)
+        this->startPlay(this->list[tag]);
 }
 
 QQuickView* Music::ViewMusicList()
