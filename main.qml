@@ -206,6 +206,15 @@ Window {
                 }
 
             }
+            Image {
+                id: sta_pau_bg
+                x: 120
+                y: 8
+                width: 45
+                height: 45
+                source: "///img/img/start_music.png"
+
+            }
 
             Button {
                 id: next
@@ -296,6 +305,7 @@ Window {
                         Layout.maximumHeight: 20
                         Layout.maximumWidth: 20
                         source: "///img/img/vol.png"
+
                     }
 
                     Slider {

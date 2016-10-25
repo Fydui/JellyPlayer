@@ -12,18 +12,16 @@
 //#include <QQmlComponent>
 #include <QQmlApplicationEngine>
 #include <QQuickView>
-//#include <QVariant>
+#include <QMediaPlaylist>
 #include <QTextCodec>
 using namespace std;
 
 class Music: public QObject
 {
     Q_OBJECT
-    //Q_PROPERTY(QString name READ Name WRITE setName NOTIFY Cname)
 signals:
     void play_pause();
-    void cname();
-    void positionChanged(qint64);
+
 public slots:
      //Q_INVOKABLE void StartPlay();
 
@@ -31,7 +29,7 @@ public slots:
 public:
     Music(QObject *p = 0);
     ~Music();
-    QString list[1001];
+    //vector<vector<QString>>* list; //vector<vector<QString>> list(1,vector<QString>(1));
     QString name;
     Q_INVOKABLE void startPlay(QString name);
     Q_INVOKABLE void test(QString a);
@@ -39,15 +37,18 @@ public:
     Q_INVOKABLE void lastMusic();
     Q_INVOKABLE void nextMusic();
     Q_INVOKABLE void pausePlay();
-    Q_INVOKABLE void VOL(int v= 80);  //��������
-    Q_INVOKABLE bool MusicLoop(bool l=false); //�Ƿ�ѭ������ Ĭ���б�˳��ѭ��
+    Q_INVOKABLE void setVol(int v= 80);  //��������
+    Q_INVOKABLE bool musicLoop(bool l=false); //�Ƿ�ѭ������ Ĭ���б�˳��ѭ��
     Q_INVOKABLE QQuickView *ViewMusicList();
 
 private:
-    QMediaPlayer* now;
+    QMediaPlayer* now = NULL;
+    QMediaPlaylist* playlist = NULL;
+    QStringList namelist;
     int vol = 80;//���� Ĭ��80
     int tag = 0; //����Ϊ0������һ�������ļ�
     bool k = false;
+
 };
 
 #endif // MUSIC_H

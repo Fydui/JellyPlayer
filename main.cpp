@@ -5,18 +5,18 @@
 #include <music.h>
 #include <QCoreApplication>
 QQmlApplicationEngine* engine;
-
+extern vector<vector<QString>> list_;
 int main(int argc, char *argv[])
 {
 
     QGuiApplication app(argc, argv);
     Music* a = new Music;
     a->ShowMusicList();
-    QStringList dataList;
+
+    QStringList dataList;   //显示列表
     int sum = 1;
-    while(a->list[sum] != ""){
-        //QString zhuan = QString::fromStdString(list[i]);
-        dataList.append(a->list[sum]);
+    while(list_[0][sum] != ""){
+        dataList.append(list_[0][sum]);
         sum++;
     }
     QQuickView view;
