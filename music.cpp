@@ -8,22 +8,21 @@ extern  QQmlApplicationEngine* engine;
 Music::Music(QObject *p):
     QObject(p)
 {
-
-    //this->list(1,vector<QString>(1));
-    this->playlist = NULL;
-    this->now = NULL;
+    this->now = new QMediaPlayer;
+    this->playlist = new QMediaPlaylist;
 }
 
 Music::~Music()
 {
-    delete now;
+    delete this->now;
+    delete this->playlist;
+    list_.clear();
 }
 void Music::ShowMusicList()
 {
     QTextCodec* codec = QTextCodec::codecForName("GBK");
     qmlRegisterType<Music>("my.Music",1,0,"Music");
-    engine = new QQmlApplicationEngine;
-    this->playlist = new QMediaPlaylist;
+
     _finddata_t file;
     int k,i = 1;
     long HANDLE;
@@ -46,21 +45,27 @@ void Music::ShowMusicList()
 
 void Music::startPlay(QString name)
 {
-    if(this->now != NULL)
-        delete this->now; //把原来的删了
+    if(this->now != NULL){
+        //delete this->now;
+        //this->now = new QMediaPlayer;
+        this->now->stop();
+        delete this->playlist;
+        this->playlist = new QMediaPlaylist;
 
-    this->now = new QMediaPlayer;
-    this->now->setMedia(QUrl("E:/Code/cpp/IcejellyMusic/music/"+name));//相对路径
-    this->now->setVolume(this->vol);
+        list_.clear();
+        for(int i = 0; i < sizeof(list_[0][i]); i++){
+                if(list_[0][i] == name){
+                    this->ShowMusicList();
+                    this->tag = i;
+                    this->now->setMedia(QUrl("E:/Code/cpp/IcejellyMusic/music/"+name));//相对路径
+                    this->now->setVolume(this->vol);
+                    this->playlist->setCurrentIndex(this->tag);
 
-    for(int i = 1; i < sizeof(list_[0][i]); i++){
-        if(list_[0][i] == name)
-            this->tag = i;
+                    this->now->setPlaylist(this->playlist);
+                    this->now->play();
+                }
+        }
     }
-
-    this->playlist->setCurrentIndex(this->tag);
-    this->now->setPlaylist(this->playlist);
-    this->now->play();
 }
 
 void Music::pausePlay(){
@@ -86,7 +91,6 @@ void Music::lastMusic(){
 void Music::nextMusic(){
     if(list_[0][tag+1]  != "" && this->now != NULL)
         this->startPlay(list_[0][tag+1]);
-
 }
 bool Music::musicLoop(bool l){
     //if(l && )
@@ -98,7 +102,6 @@ QQuickView* Music::ViewMusicList()
     QStringList dataList;
     int a = 1;
     while(list_[0][a] != ""){
-        //QString zhuan = QString::fromStdString(list[i]);
         dataList.append(list_[0][a]);
         a++;
     }

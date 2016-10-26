@@ -43,8 +43,7 @@ public:
 
 private:
     QMediaPlayer* now = NULL;
-    QMediaPlaylist* playlist = NULL;
-    QStringList namelist;
+    QMediaPlaylist* playlist;
     int vol = 80;//���� Ĭ��80
     int tag = 0; //����Ϊ0������һ�������ļ�
     bool k = false;
