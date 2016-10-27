@@ -26,7 +26,7 @@ void Music::ShowMusicList()
     _finddata_t file;
     int k,i = 1;
     long HANDLE;
-    list_[0][0] = "";
+    //list_[0][0] = "";
     k = HANDLE = _findfirst( "music/*.mp3", &file );
     while( k != -1 ){
         QString str = codec->toUnicode(file.name);
@@ -46,25 +46,27 @@ void Music::ShowMusicList()
 void Music::startPlay(QString name)
 {
     if(this->now != NULL){
-        //delete this->now;
-        //this->now = new QMediaPlayer;
-        this->now->stop();
-        delete this->playlist;
-        this->playlist = new QMediaPlaylist;
 
-        list_.clear();
-        for(int i = 0; i < sizeof(list_[0][i]); i++){
-                if(list_[0][i] == name){
-                    this->ShowMusicList();
-                    this->tag = i;
-                    this->now->setMedia(QUrl("E:/Code/cpp/IcejellyMusic/music/"+name));//相对路径
-                    this->now->setVolume(this->vol);
-                    this->playlist->setCurrentIndex(this->tag);
+        for(int i = 0; i<sizeof(list_[0][0]); i++){ //遍历list_
+            if(list_[0][i] == name){                //找到用户点击的那个是list_中的第几个(就是传进来的name)
+                delete this->playlist;              //删除之前的playlist 重new一个
+                this->playlist = new QMediaPlaylist;
 
-                    this->now->setPlaylist(this->playlist);
-                    this->now->play();
+                for(int j = i; j<sizeof(list_[0][0])+1;j++){ //从i开始 也就是用户点击的那个音乐(name)开始 往后构建播放列表 前面的不要了
+                    this->playlist->addMedia(QUrl("E:/Code/cpp/IcejellyMusic/music/"+list_[0][j]));;
                 }
+                this->tag = i;                          //把标记设为当前音乐在list_中所处的位置 用于上下切歌
+                delete this->now;                       //删除当前的音乐指针 重new一个
+                this->now = new QMediaPlayer;
+
+                this->playlist->setCurrentIndex(1);     //这函数我也不知道干啥的 有人说是设置当前音乐为第一个播放?
+                this->now->setPlaylist(this->playlist); //对now指针 设置播放列表
+                this->setVol(80);                       //音量
+                this->now->play();                      // Let's Play!
+            }
         }
+
+
     }
 }
 

@@ -185,8 +185,17 @@ Window {
                 Layout.maximumWidth: 70
                 Layout.fillHeight: true
                 Layout.fillWidth: true
+
                 onClicked: {
                     myPlay.lastMusic();
+                }
+                Image {
+                    id: last_pix
+                    x: 0
+                    y: 0
+                    width: 35
+                    height: 35
+                    source: "///img/img/last.png"
                 }
             }
 
@@ -200,10 +209,10 @@ Window {
                 Layout.maximumWidth: 70
                 Layout.fillHeight: true
                 Layout.fillWidth: true
-
                 onClicked: {
                     myPlay.pausePlay();
                 }
+
 
             }
             Image {
@@ -228,6 +237,14 @@ Window {
                 Layout.fillWidth: true
                 onClicked: {
                     myPlay.nextMusic();
+                }
+                Image {
+                    id: next_pix
+                    x: 0
+                    y: 0
+                    width: 35
+                    height: 35
+                    source: "///img/img/next.png"
                 }
             }
 
