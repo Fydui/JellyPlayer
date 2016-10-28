@@ -273,6 +273,7 @@ Window {
                         color: "#C8C8C8";
                         text: qsTr("Text")
                         font.pixelSize: 18
+
                     }
 
                     Slider {
@@ -283,7 +284,8 @@ Window {
                         Layout.maximumWidth: 550
                         Layout.maximumHeight: 20
                         Layout.fillWidth: true
-                        value: 0.5
+                        value: 0.0
+
                     }
 
                     Text {

@@ -58,9 +58,15 @@ void Music::startPlay(QString name)
                 this->tag = i;                          //把标记设为当前音乐在list_中所处的位置 用于上下切歌
                 delete this->now;                       //删除当前的音乐指针 重new一个
                 this->now = new QMediaPlayer;
-
                 this->playlist->setCurrentIndex(1);     //这函数我也不知道干啥的 有人说是设置当前音乐为第一个播放?
                 this->now->setPlaylist(this->playlist); //对now指针 设置播放列表
+
+                QObject::connect(now, &QMediaPlayer::positionChanged, [this](qint64 position){
+                        if(this->now->duration() != 0)
+                            this->endtime = this->now->duration();//获取当前音乐的总时长
+                        this->time = position;          //获得当前播放的位置(就是当前播放到哪了 单位:毫秒)
+                });
+
                 this->setVol(80);                       //音量
                 this->now->play();                      // Let's Play!
             }
@@ -112,6 +118,11 @@ QQuickView* Music::ViewMusicList()
     ctxt->setContextProperty("myModel", QVariant::fromValue(dataList));
     view->setSource(QUrl(QStringLiteral("qrc:/main.qml")));
     return view;
+}
+
+void Music::setNowMusicPos(qint64 time)
+{
+//
 }
 
 void Music::test(QString a)

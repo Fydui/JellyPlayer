@@ -10,10 +10,12 @@
 #include <QQmlContext>
 //#include <QStringListModel>
 //#include <QQmlComponent>
+#include <QVariant>
 #include <QQmlApplicationEngine>
 #include <QQuickView>
 #include <QMediaPlaylist>
 #include <QTextCodec>
+#include <QMediaMetaData>
 using namespace std;
 
 class Music: public QObject
@@ -39,11 +41,15 @@ public:
     Q_INVOKABLE void pausePlay();
     Q_INVOKABLE void setVol(int v= 80);  //��������
     Q_INVOKABLE bool musicLoop(bool l=false); //�Ƿ�ѭ������ Ĭ���б�˳��ѭ��
+    Q_INVOKABLE void setNowMusicPos(qint64 time);
+    //Q_INVOKABLE void setPorgressLenght(qint64 time);
     Q_INVOKABLE QQuickView *ViewMusicList();
 
 private:
     QMediaPlayer* now = NULL;
     QMediaPlaylist* playlist;
+    qint64 time = 0;
+    qint64 endtime = 0;
     int vol = 80;//���� Ĭ��80
     int tag = 0; //����Ϊ0������һ�������ļ�
     bool k = false;
