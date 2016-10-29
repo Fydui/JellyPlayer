@@ -4,7 +4,6 @@
 #include <QQmlEngine>
 #include <music.h>
 #include <QCoreApplication>
-QQmlApplicationEngine* engine;
 extern vector<vector<QString>> list_;
 int main(int argc, char *argv[])
 {
@@ -12,6 +11,7 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
     Music* a = new Music;
     a->ShowMusicList();
+    QQuickView* view = new QQuickView;
 
     QStringList dataList;   //显示列表
     int sum = 1;
@@ -19,13 +19,15 @@ int main(int argc, char *argv[])
         dataList.append(list_[0][sum]);
         sum++;
     }
-    QQuickView view;
-    QQmlContext* context  = view.rootContext();
+
+    QQmlContext* context  = view->rootContext();
     context->setContextProperty("myPlay",a);
-    QQmlContext *ctxt = view.rootContext();
+
+    QQmlContext *ctxt = view->rootContext();
     ctxt->setContextProperty("myModel", QVariant::fromValue(dataList));
 
-    view.setSource(QUrl(QStringLiteral("qrc:/main.qml")));
+    a->test(view);
+    view->setSource(QUrl(QStringLiteral("qrc:/main.qml")));
     //a->play_pause();
     return app.exec();
 }

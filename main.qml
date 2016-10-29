@@ -266,12 +266,12 @@ Window {
                     Layout.maximumWidth: 580
 
                     Text {
-                        id: e_time
+                        id: s_time
                         y: 0
                         width: 40
                         height: 20
                         color: "#C8C8C8";
-                        text: qsTr("Text")
+                        text: ""
                         font.pixelSize: 18
 
                     }
@@ -289,13 +289,13 @@ Window {
                     }
 
                     Text {
-                        id: s_time
+                        id: e_time
                         x: 515
                         y: 0
                         width: 40
                         height: 20
                         color: "#C8C8C8"
-                        text: qsTr("Text")
+                        text: myText
                         font.pixelSize: 18
                     }
 

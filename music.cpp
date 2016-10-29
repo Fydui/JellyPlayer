@@ -1,8 +1,8 @@
 ﻿#include "music.h"
 vector<vector<QString>> list_(1,vector<QString>(1));
-
-using namespace std;
 extern  QQmlApplicationEngine* engine;
+extern QQuickView* view;
+using namespace std;
 //QStringListModel model;
 
 Music::Music(QObject *p):
@@ -63,8 +63,11 @@ void Music::startPlay(QString name)
 
                 QObject::connect(now, &QMediaPlayer::positionChanged, [this](qint64 position){
                         if(this->now->duration() != 0)
-                            this->endtime = this->now->duration();//获取当前音乐的总时长
+                            this->setEndtime(this->now->duration());  //获取当前音乐的总时长
                         this->time = position;          //获得当前播放的位置(就是当前播放到哪了 单位:毫秒)
+                        QQmlContext* context  = this->myView->rootContext();
+                        context->setContextProperty("myText",QVariant(this->endtime));
+                        delete context;
                 });
 
                 this->setVol(80);                       //音量
@@ -125,7 +128,24 @@ void Music::setNowMusicPos(qint64 time)
 //
 }
 
-void Music::test(QString a)
+void Music::test(QQuickView* v)
 {
-    this->startPlay(a);
+
+    this->myView = v;
+}
+
+void Music::setEndtime(qint64 settime_){
+    this->endtime = settime_;
+}
+
+qint64 Music::endTime(){
+    return this->endtime;
+}
+
+void Music::settime(qint64 time_){
+    this->time = time_;
+}
+
+qint64 Music::times(){
+    return this->time;
 }

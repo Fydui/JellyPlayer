@@ -8,7 +8,6 @@
 #include <fstream>
 #include <iostream>
 #include <QQmlContext>
-//#include <QStringListModel>
 //#include <QQmlComponent>
 #include <QVariant>
 #include <QQmlApplicationEngine>
@@ -21,12 +20,11 @@ using namespace std;
 class Music: public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(qint64 time READ times WRITE settime)
+    Q_PROPERTY(qint64 endtime READ endTime WRITE setEndtime)
+
 signals:
     void play_pause();
-
-public slots:
-     //Q_INVOKABLE void StartPlay();
-
 
 public:
     Music(QObject *p = 0);
@@ -34,7 +32,7 @@ public:
     //vector<vector<QString>>* list; //vector<vector<QString>> list(1,vector<QString>(1));
     QString name;
     Q_INVOKABLE void startPlay(QString name);
-    Q_INVOKABLE void test(QString a);
+    Q_INVOKABLE void test(QQuickView *v);
     Q_INVOKABLE void ShowMusicList();
     Q_INVOKABLE void lastMusic();
     Q_INVOKABLE void nextMusic();
@@ -45,9 +43,15 @@ public:
     //Q_INVOKABLE void setPorgressLenght(qint64 time);
     Q_INVOKABLE QQuickView *ViewMusicList();
 
+    qint64 times();
+    void settime(qint64 time_);
+    qint64 endTime();
+    void setEndtime(qint64 settime_);
+
 private:
     QMediaPlayer* now = NULL;
     QMediaPlaylist* playlist;
+    QQuickView* myView  = NULL;
     qint64 time = 0;
     qint64 endtime = 0;
     int vol = 80;//���� Ĭ��80
