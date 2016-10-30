@@ -20,7 +20,7 @@ using namespace std;
 class Music: public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(qint64 time READ times WRITE settime)
+    Q_PROPERTY(qint64 nowtime READ times WRITE settime)
     Q_PROPERTY(qint64 endtime READ endTime WRITE setEndtime)
 
 signals:
@@ -39,7 +39,7 @@ public:
     Q_INVOKABLE void pausePlay();
     Q_INVOKABLE void setVol(int v= 80);  //��������
     Q_INVOKABLE bool musicLoop(bool l=false); //�Ƿ�ѭ������ Ĭ���б�˳��ѭ��
-    Q_INVOKABLE void setNowMusicPos(qint64 time);
+    Q_INVOKABLE void setNowMusicPos(qint64 nowtime);
     //Q_INVOKABLE void setPorgressLenght(qint64 time);
     Q_INVOKABLE QQuickView *ViewMusicList();
 
@@ -52,7 +52,7 @@ private:
     QMediaPlayer* now = NULL;
     QMediaPlaylist* playlist;
     QQuickView* myView  = NULL;
-    qint64 time = 0;
+    qint64 nowtime = 0;
     qint64 endtime = 0;
     int vol = 80;//���� Ĭ��80
     int tag = 0; //����Ϊ0������һ�������ļ�

@@ -271,7 +271,7 @@ Window {
                         width: 40
                         height: 20
                         color: "#C8C8C8";
-                        text: ""
+                        text: mySTIME
                         font.pixelSize: 18
 
                     }
@@ -284,7 +284,9 @@ Window {
                         Layout.maximumWidth: 550
                         Layout.maximumHeight: 20
                         Layout.fillWidth: true
-                        value: 0.0
+                        maximumValue: myETIME
+                        //stepSize:
+                        value: mySTIME
 
                     }
 
@@ -295,7 +297,7 @@ Window {
                         width: 40
                         height: 20
                         color: "#C8C8C8"
-                        text: myText
+                        text: myETIME
                         font.pixelSize: 18
                     }
 

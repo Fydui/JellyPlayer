@@ -64,10 +64,15 @@ void Music::startPlay(QString name)
                 QObject::connect(now, &QMediaPlayer::positionChanged, [this](qint64 position){
                         if(this->now->duration() != 0)
                             this->setEndtime(this->now->duration());  //获取当前音乐的总时长
-                        this->time = position;          //获得当前播放的位置(就是当前播放到哪了 单位:毫秒)
-                        QQmlContext* context  = this->myView->rootContext();
-                        context->setContextProperty("myText",QVariant(this->endtime));
-                        delete context;
+                        this->settime(position);//获得当前播放的位置(就是当前播放到哪了 单位:毫秒)
+                        int
+                        QQmlContext* e_time  = this->myView->rootContext();
+                        e_time->setContextProperty("myETIME",QVariant((this->endtime/6000)%10 );
+
+                        QQmlContext* s_time = this->myView->rootContext();
+                        s_time->setContextProperty("mySTIME",QVariant(this->nowtime/60/10));
+                        //delete e_time;
+                        //delete s_time;
                 });
 
                 this->setVol(80);                       //音量
@@ -143,9 +148,9 @@ qint64 Music::endTime(){
 }
 
 void Music::settime(qint64 time_){
-    this->time = time_;
+    this->nowtime = time_;
 }
 
 qint64 Music::times(){
-    return this->time;
+    return this->nowtime;
 }
