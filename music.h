@@ -49,6 +49,7 @@ public:
     void setEndtime(qint64 settime_);
 
 private:
+    QString timeformat(qint64 musictime);
     QMediaPlayer* now = NULL;
     QMediaPlaylist* playlist;
     QQuickView* myView  = NULL;

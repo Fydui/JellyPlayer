@@ -65,12 +65,18 @@ void Music::startPlay(QString name)
                         if(this->now->duration() != 0)
                             this->setEndtime(this->now->duration());  //获取当前音乐的总时长
                         this->settime(position);//获得当前播放的位置(就是当前播放到哪了 单位:毫秒)
-                        int
+
                         QQmlContext* e_time  = this->myView->rootContext();
-                        e_time->setContextProperty("myETIME",QVariant((this->endtime/6000)%10 );
+                        e_time->setContextProperty("myETIME",QVariant(this->timeformat(this->endtime)));
 
                         QQmlContext* s_time = this->myView->rootContext();
-                        s_time->setContextProperty("mySTIME",QVariant(this->nowtime/60/10));
+                        s_time->setContextProperty("mySTIME",QVariant(this->timeformat(position)));
+
+                        QQmlContext* now_progress = this->myView->rootContext();
+                        now_progress->setContextProperty("setNOW",QVariant(position));
+
+                        QQmlContext* max_progress = this->myView->rootContext();
+                        max_progress->setContextProperty("setMAX",QVariant(this->now->duration()));
                         //delete e_time;
                         //delete s_time;
                 });
@@ -153,4 +159,14 @@ void Music::settime(qint64 time_){
 
 qint64 Music::times(){
     return this->nowtime;
+}
+
+QString Music::timeformat(qint64 musictime){ //格式化时间 形参单位毫秒
+    int min = musictime/1000/60;  //换算成分钟
+    int sec = musictime/1000;     //换算成秒
+
+    while(sec>=60)  sec = sec%60; //如果当前接受的时间大于等于60秒 除以60取其余数就是格式化的秒
+
+    QString outtime = QString::number(min) + ":" + QString::number(sec);
+    return outtime;
 }

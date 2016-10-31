@@ -284,9 +284,9 @@ Window {
                         Layout.maximumWidth: 550
                         Layout.maximumHeight: 20
                         Layout.fillWidth: true
-                        maximumValue: myETIME
+                        maximumValue: setMAX
                         //stepSize:
-                        value: mySTIME
+                        value: setNOW
 
                     }
 
