@@ -4,6 +4,8 @@
 #include <QQmlEngine>
 #include <music.h>
 #include <QCoreApplication>
+
+
 extern vector<vector<QString>> list_;
 int main(int argc, char *argv[])
 {
@@ -12,7 +14,6 @@ int main(int argc, char *argv[])
     Music* a = new Music;
     a->ShowMusicList();
     QQuickView* view = new QQuickView;
-
     QStringList dataList;   //显示列表
     int sum = 1;
     while(list_[0][sum] != ""){
@@ -27,6 +28,8 @@ int main(int argc, char *argv[])
     ctxt->setContextProperty("myModel", QVariant::fromValue(dataList));
 
     a->test(view);
+
+
     view->setSource(QUrl(QStringLiteral("qrc:/main.qml")));
     //a->play_pause();
     return app.exec();

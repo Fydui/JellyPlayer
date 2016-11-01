@@ -42,6 +42,18 @@ Window {
             Layout.maximumHeight: 45
             Layout.fillWidth: true
             Layout.fillHeight: false
+            Text {
+                id: musicteitle
+                x:5
+                y:5
+                width: parent.width
+                height: 30
+                color: "#C8C8C8"
+                font.family: "microsoft yahei"
+                font.pixelSize: 23
+                text:"正在播放: " + myTITLE
+
+            }
         }
 
         RowLayout {
@@ -284,9 +296,11 @@ Window {
                         Layout.maximumWidth: 550
                         Layout.maximumHeight: 20
                         Layout.fillWidth: true
-                        maximumValue: setMAX
-                        //stepSize:
+                        maximumValue: myPlay.getEndtime();
                         value: setNOW
+                        onPressedChanged:  {
+                            myPlay.setNowMusicPos(value);
+                        }
 
                     }
 
@@ -338,7 +352,11 @@ Window {
                         Layout.maximumHeight: 20
                         Layout.maximumWidth: 120
                         Layout.fillWidth: true
-                        value: 0.5
+                        maximumValue: 100
+                        value: myPlay.getVol();
+                        onValueChanged: {
+                            myPlay.setVol(value);
+                        }
                     }
 
                     Button {

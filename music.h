@@ -38,9 +38,13 @@ public:
     Q_INVOKABLE void nextMusic();
     Q_INVOKABLE void pausePlay();
     Q_INVOKABLE void setVol(int v= 80);  //��������
+    Q_INVOKABLE int getVol();
+    Q_INVOKABLE qint64 getEndtime();
+    Q_INVOKABLE QString getMusicTitle();
+    Q_INVOKABLE QString getMusicTitle(QString name);
     Q_INVOKABLE bool musicLoop(bool l=false); //�Ƿ�ѭ������ Ĭ���б�˳��ѭ��
     Q_INVOKABLE void setNowMusicPos(qint64 nowtime);
-    //Q_INVOKABLE void setPorgressLenght(qint64 time);
+    //Q_INVOKABLE void setMusicProgress(qint64 time);
     Q_INVOKABLE QQuickView *ViewMusicList();
 
     qint64 times();

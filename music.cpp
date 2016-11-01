@@ -47,7 +47,7 @@ void Music::startPlay(QString name)
 {
     if(this->now != NULL){
 
-        for(int i = 0; i<sizeof(list_[0][0]); i++){ //遍历list_
+        for(int i = 0; i<sizeof(list_[0][0])+1; i++){ //遍历list_
             if(list_[0][i] == name){                //找到用户点击的那个是list_中的第几个(就是传进来的name)
                 delete this->playlist;              //删除之前的playlist 重new一个
                 this->playlist = new QMediaPlaylist;
@@ -62,27 +62,28 @@ void Music::startPlay(QString name)
                 this->now->setPlaylist(this->playlist); //对now指针 设置播放列表
 
                 QObject::connect(now, &QMediaPlayer::positionChanged, [this](qint64 position){
-                        if(this->now->duration() != 0)
-                            this->setEndtime(this->now->duration());  //获取当前音乐的总时长
+                    if(this->now->duration() != 0)
+                        this->setEndtime(this->now->duration());  //获取当前音乐的总时长
+
                         this->settime(position);//获得当前播放的位置(就是当前播放到哪了 单位:毫秒)
-
-                        QQmlContext* e_time  = this->myView->rootContext();
-                        e_time->setContextProperty("myETIME",QVariant(this->timeformat(this->endtime)));
-
                         QQmlContext* s_time = this->myView->rootContext();
                         s_time->setContextProperty("mySTIME",QVariant(this->timeformat(position)));
 
                         QQmlContext* now_progress = this->myView->rootContext();
                         now_progress->setContextProperty("setNOW",QVariant(position));
 
-                        QQmlContext* max_progress = this->myView->rootContext();
-                        max_progress->setContextProperty("setMAX",QVariant(this->now->duration()));
-                        //delete e_time;
-                        //delete s_time;
-                });
+                        QQmlContext* e_time  = this->myView->rootContext();
+                        e_time->setContextProperty("myETIME",QVariant(this->timeformat(this->endtime)));
 
-                this->setVol(80);                       //音量
+                        QQmlContext* title = this->myView->rootContext();
+                        title->setContextProperty("myTITLE",QVariant(this->getMusicTitle()));
+                });
+                QQmlContext* max_progress = this->myView->rootContext();
+                max_progress->setContextProperty("setMAX",QVariant(this->now->duration()));
+
+                this->setVol(this->vol);                       //音量
                 this->now->play();                      // Let's Play!
+
             }
         }
 
@@ -103,7 +104,10 @@ void Music::pausePlay(){
 }
 void Music::setVol(int v){
     this->now->setVolume(v);
+    this->vol = v;
 }
+
+int Music::getVol(){return this->vol;}
 
 void Music::lastMusic(){
     if(list_[0][tag-1] != "" && this->now != NULL)
@@ -136,7 +140,7 @@ QQuickView* Music::ViewMusicList()
 
 void Music::setNowMusicPos(qint64 time)
 {
-//
+    this->now->setPosition(time);
 }
 
 void Music::test(QQuickView* v)
@@ -148,6 +152,8 @@ void Music::test(QQuickView* v)
 void Music::setEndtime(qint64 settime_){
     this->endtime = settime_;
 }
+
+qint64 Music::getEndtime(){return this->endtime;}
 
 qint64 Music::endTime(){
     return this->endtime;
@@ -169,4 +175,12 @@ QString Music::timeformat(qint64 musictime){ //格式化时间 形参单位毫�
 
     QString outtime = QString::number(min) + ":" + QString::number(sec);
     return outtime;
+}
+
+QString Music::getMusicTitle(){
+    return list_[0][this->tag];
+}
+
+QString Music::getMusicTitle(QString name){
+    return name;
 }
