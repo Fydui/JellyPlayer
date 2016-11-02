@@ -8,7 +8,7 @@
 #include <fstream>
 #include <iostream>
 #include <QQmlContext>
-//#include <QQmlComponent>
+#include <QFile>
 #include <QVariant>
 #include <QQmlApplicationEngine>
 #include <QQuickView>
@@ -32,7 +32,7 @@ public:
     //vector<vector<QString>>* list; //vector<vector<QString>> list(1,vector<QString>(1));
     QString name;
     Q_INVOKABLE void startPlay(QString name);
-    Q_INVOKABLE void test(QQuickView *v);
+    Q_INVOKABLE void setview(QQuickView *v);
     Q_INVOKABLE void ShowMusicList();
     Q_INVOKABLE void lastMusic();
     Q_INVOKABLE void nextMusic();
@@ -44,8 +44,8 @@ public:
     Q_INVOKABLE QString getMusicTitle(QString name);
     Q_INVOKABLE bool musicLoop(bool l=false); //�Ƿ�ѭ������ Ĭ���б�˳��ѭ��
     Q_INVOKABLE void setNowMusicPos(qint64 nowtime);
-    //Q_INVOKABLE void setMusicProgress(qint64 time);
     Q_INVOKABLE QQuickView *ViewMusicList();
+    Q_INVOKABLE QStringList showlrc(QString name);
 
     qint64 times();
     void settime(qint64 time_);

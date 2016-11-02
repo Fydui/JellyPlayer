@@ -143,7 +143,7 @@ void Music::setNowMusicPos(qint64 time)
     this->now->setPosition(time);
 }
 
-void Music::test(QQuickView* v)
+void Music::setview(QQuickView* v)
 {
 
     this->myView = v;
@@ -183,4 +183,15 @@ QString Music::getMusicTitle(){
 
 QString Music::getMusicTitle(QString name){
     return name;
+}
+
+QStringList Music::showlrc(QString name)
+{
+    QFile mylrc("E:/Code/cpp/IcejellyMusic/music/李白.txt");
+    mylrc.open(QIODevice::ReadOnly | QIODevice::Text);
+    QStringList lrcList;
+    while(!mylrc.atEnd()){
+        lrcList.append(mylrc.readLine());
+    }
+    return lrcList;
 }

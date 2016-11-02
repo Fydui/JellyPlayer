@@ -117,33 +117,17 @@ Window {
                                     anchors.verticalCenter: parent.verticalCenter
                                     text: qsTr(modelData);
 
-
-                                    /*MediaPlayer {
-                                        id: playMusic
-                                        source: "E:/Code/cpp/IcejellyMusic/music/"+modelData//+".mp3"
-                                    }*/
                                     MouseArea {
                                         id: playArea
                                         anchors.fill:  parent
                                         onClicked: {myPlay.startPlay(modelData)}
                                     }
-
-                                    /*
-                                    MouseArea {
-                                        id: playArea
-                                        anchors.fill: parent
-                                        onPressed:  {playMusic.play();}
-                                    }*/
-
                                 }
-
                             }
                             spacing: 5
                         }
                     }
               }
-
-
             }
 
             Rectangle {
@@ -160,6 +144,45 @@ Window {
                 //color: "#5d5d45"
                 clip: true
 
+                ListView {
+                    id: lrclist
+                    x: 10
+                    y: 5
+                    width: 300
+                    height: parent.height//965//605
+                    spacing: 5
+                    contentWidth: 0
+
+
+                    model:myLRC
+                    delegate: Item {
+                        x: 5
+                        width: 300
+                        height: 20
+
+                        Row {
+                            id: row2
+                            //Rectangle {
+                              //  width: 300
+                                //height: 20
+                                //color: "Gray"
+                                Text {
+                                    id: lrc
+                                    x:200
+                                    y:10
+                                    color: "#C8C8C8"
+                                    font.family: "microsoft yahei"
+                                    font.pixelSize: 16
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    text: qsTr(modelData);
+
+                                }
+                            //}
+                            spacing: 5
+                        }
+                    }
+              }
+
                 Image {
                     id: right_bg
                     x: 0
@@ -168,7 +191,6 @@ Window {
                     //755
                     height: parent.height//610
                     clip: true
-                    //source: "///img/img/background.png"
                 }
             }
 

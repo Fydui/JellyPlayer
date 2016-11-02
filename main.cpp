@@ -20,14 +20,17 @@ int main(int argc, char *argv[])
         dataList.append(list_[0][sum]);
         sum++;
     }
-
+    QStringList lrclist = a->showlrc("E:/Code/cpp/IcejellyMusic/music/李白.txt");
     QQmlContext* context  = view->rootContext();
     context->setContextProperty("myPlay",a);
 
     QQmlContext *ctxt = view->rootContext();
     ctxt->setContextProperty("myModel", QVariant::fromValue(dataList));
 
-    a->test(view);
+    QQmlContext* lrc = view->rootContext();
+    lrc->setContextProperty("myLRC",QVariant::fromValue(lrclist));
+
+    a->setview(view);
 
 
     view->setSource(QUrl(QStringLiteral("qrc:/main.qml")));
