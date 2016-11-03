@@ -146,17 +146,17 @@ Window {
 
                 ListView {
                     id: lrclist
-                    x: 10
-                    y: 5
+                    x: 300
+                    y: 30
                     width: 300
                     height: parent.height//965//605
-                    spacing: 5
+                    spacing: 20
                     contentWidth: 0
-
+                    anchors.horizontalCenter: right.horizontalCenter
 
                     model:myLRC
                     delegate: Item {
-                        x: 5
+                        x: 0
                         width: 300
                         height: 20
 
@@ -168,17 +168,17 @@ Window {
                                 //color: "Gray"
                                 Text {
                                     id: lrc
-                                    x:200
+                                    x:0
                                     y:10
                                     color: "#C8C8C8"
                                     font.family: "microsoft yahei"
-                                    font.pixelSize: 16
+                                    font.pixelSize: 23
                                     anchors.verticalCenter: parent.verticalCenter
                                     text: qsTr(modelData);
 
                                 }
                             //}
-                            spacing: 5
+                            spacing: 20
                         }
                     }
               }

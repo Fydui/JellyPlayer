@@ -187,11 +187,13 @@ QString Music::getMusicTitle(QString name){
 
 QStringList Music::showlrc(QString name)
 {
+    QTextCodec* codec = QTextCodec::codecForName("GBK");
     QFile mylrc("E:/Code/cpp/IcejellyMusic/music/李白.txt");
     mylrc.open(QIODevice::ReadOnly | QIODevice::Text);
     QStringList lrcList;
     while(!mylrc.atEnd()){
-        lrcList.append(mylrc.readLine());
+        QString str = codec->toUnicode(mylrc.readLine());
+        lrcList.append(str);
     }
     return lrcList;
 }
