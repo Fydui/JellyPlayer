@@ -45,7 +45,7 @@ public:
     Q_INVOKABLE bool musicLoop(bool l=false); //�Ƿ�ѭ������ Ĭ���б�˳��ѭ��
     Q_INVOKABLE void setNowMusicPos(qint64 nowtime);
     Q_INVOKABLE QQuickView *ViewMusicList();
-    Q_INVOKABLE QStringList showlrc(QString name);
+    Q_INVOKABLE QStringList showlrc(QString name, qint64 time);
 
     qint64 times();
     void settime(qint64 time_);

@@ -185,10 +185,10 @@ QString Music::getMusicTitle(QString name){
     return name;
 }
 
-QStringList Music::showlrc(QString name)
+QStringList Music::showlrc(QString name, qint64 time)
 {
     QTextCodec* codec = QTextCodec::codecForName("GBK");
-    QFile mylrc("E:/Code/cpp/IcejellyMusic/music/李白.txt");
+    QFile mylrc("E:/Code/cpp/IcejellyMusic/music/"+name+".lrc");
     mylrc.open(QIODevice::ReadOnly | QIODevice::Text);
     QStringList lrcList;
     while(!mylrc.atEnd()){

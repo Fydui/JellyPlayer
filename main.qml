@@ -81,10 +81,6 @@ Window {
                 Layout.maximumWidth: 300
                 clip: true
 
-                Component {
-                    id: mylist
-                    Text {text: "a"}
-                }
                 ListView {
                     id: musiclist
                     x: 10
@@ -127,73 +123,55 @@ Window {
                             spacing: 5
                         }
                     }
-              }
+                }
             }
 
             Rectangle {
                 id: right
                 x: 405
                 y: 5
-                width: parent.width//755
+                width: parent.width
                 height: parent.height
                 color: "#16181c"
                 opacity: 0.8
                 Layout.fillWidth: true
-                Layout.fillHeight: true//605
-                Layout.maximumHeight: 965//600
-                //color: "#5d5d45"
+                Layout.fillHeight: true
+                Layout.maximumHeight: 965
                 clip: true
 
                 ListView {
                     id: lrclist
-                    x: 300
-                    y: 30
-                    width: 300
-                    height: parent.height//965//605
-                    spacing: 20
+                    y:190
+                    width: 500
+                    height: parent.height - 220
                     contentWidth: 0
-                    anchors.horizontalCenter: right.horizontalCenter
-
                     model:myLRC
+                    anchors.horizontalCenter: right.horizontalCenter
+                    spacing: 35
                     delegate: Item {
-                        x: 0
-                        width: 300
-                        height: 20
-
                         Row {
                             id: row2
-                            //Rectangle {
-                              //  width: 300
-                                //height: 20
-                                //color: "Gray"
-                                Text {
-                                    id: lrc
-                                    x:0
-                                    y:10
-                                    color: "#C8C8C8"
-                                    font.family: "microsoft yahei"
-                                    font.pixelSize: 23
-                                    anchors.verticalCenter: parent.verticalCenter
-                                    text: qsTr(modelData);
-
-                                }
-                            //}
-                            spacing: 20
+                            Text {
+                                id: lrc
+                                color: "#C8C8C8"
+                                font.family: "microsoft yahei"
+                                font.pixelSize: 23
+                                text: qsTr(modelData);
+                            }
                         }
                     }
-              }
+                }
 
                 Image {
                     id: right_bg
-                    x: 0
-                    y: 0
-                    width: 1515
-                    //755
-                    height: parent.height//610
+                    y:10
+                    anchors.horizontalCenter: right.horizontalCenter
+                    width: 175
+                    height: 175
                     clip: true
+                    source: "///img/img/Qt1.jpg"
                 }
             }
-
         }
 
         Rectangle {

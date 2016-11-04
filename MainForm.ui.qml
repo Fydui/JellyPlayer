@@ -29,15 +29,4 @@ Rectangle {
         source: "///img/img/Qt3.jpg"
     }
 
-
-    /*
-    Image {
-        id: image2
-        width: parent.width
-        height: parent.height
-        source: "///img/img/background.png"
-    }
-*/
-
-
 }

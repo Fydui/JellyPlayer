@@ -20,7 +20,8 @@ int main(int argc, char *argv[])
         dataList.append(list_[0][sum]);
         sum++;
     }
-    QStringList lrclist = a->showlrc("E:/Code/cpp/IcejellyMusic/music/李白.txt");
+
+    QStringList lrclist = a->showlrc("李白",00);
     QQmlContext* context  = view->rootContext();
     context->setContextProperty("myPlay",a);
 
