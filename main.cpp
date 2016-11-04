@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
         sum++;
     }
 
-    QStringList lrclist = a->showlrc("李白",00);
+    QStringList lrclist = a->showlrc("李白.mp3",00);
     QQmlContext* context  = view->rootContext();
     context->setContextProperty("myPlay",a);
 

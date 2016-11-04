@@ -16,6 +16,7 @@ Music::~Music()
 {
     delete this->now;
     delete this->playlist;
+    delete this->myView;
     list_.clear();
 }
 void Music::ShowMusicList()
@@ -60,7 +61,7 @@ void Music::startPlay(QString name)
                 this->now = new QMediaPlayer;
                 this->playlist->setCurrentIndex(1);     //这函数我也不知道干啥的 有人说是设置当前音乐为第一个播放?
                 this->now->setPlaylist(this->playlist); //对now指针 设置播放列表
-
+                getMusicPix();
                 QObject::connect(now, &QMediaPlayer::positionChanged, [this](qint64 position){
                     if(this->now->duration() != 0)
                         this->setEndtime(this->now->duration());  //获取当前音乐的总时长
@@ -77,10 +78,12 @@ void Music::startPlay(QString name)
 
                         QQmlContext* title = this->myView->rootContext();
                         title->setContextProperty("myTITLE",QVariant(this->getMusicTitle()));
+
+                getMusicPix();
                 });
                 QQmlContext* max_progress = this->myView->rootContext();
                 max_progress->setContextProperty("setMAX",QVariant(this->now->duration()));
-
+                getMusicPix();
                 this->setVol(this->vol);                       //音量
                 this->now->play();                      // Let's Play!
 
@@ -187,13 +190,29 @@ QString Music::getMusicTitle(QString name){
 
 QStringList Music::showlrc(QString name, qint64 time)
 {
+    QString name_ = name.section('.',0,0);
     QTextCodec* codec = QTextCodec::codecForName("GBK");
-    QFile mylrc("E:/Code/cpp/IcejellyMusic/music/"+name+".lrc");
+    QFile mylrc("E:/Code/cpp/IcejellyMusic/music/"+name_+".lrc");
     mylrc.open(QIODevice::ReadOnly | QIODevice::Text);
     QStringList lrcList;
     while(!mylrc.atEnd()){
         QString str = codec->toUnicode(mylrc.readLine());
+        str = str.section("]",1,1);
         lrcList.append(str);
     }
     return lrcList;
+}
+
+void Music::getMusicPix(){
+    QObject::connect(this->now,static_cast<void(QMediaObject::*)()>(&QMediaObject::metaDataChanged),[this](){
+
+        QVariant pix = this->now->metaData("CoverArtUrlSmall");
+        QVariant pix1 = this->now->metaData("CoverArtUrlLarge");
+        QVariant pix2 = this->now->metaData("CoverArtImage");
+        QQmlContext* music_pix = this->myView->rootContext();
+        music_pix->setContextProperty("PIX",pix);
+
+        //QUrl test = path;
+    });
+    //
 }

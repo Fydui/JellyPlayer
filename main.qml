@@ -141,6 +141,7 @@ Window {
 
                 ListView {
                     id: lrclist
+                    x:500
                     y:190
                     width: 500
                     height: parent.height - 220
@@ -151,12 +152,14 @@ Window {
                     delegate: Item {
                         Row {
                             id: row2
+                            x:250
                             Text {
                                 id: lrc
                                 color: "#C8C8C8"
                                 font.family: "microsoft yahei"
                                 font.pixelSize: 23
                                 text: qsTr(modelData);
+                                anchors.horizontalCenter: row2.horizontalCenter
                             }
                         }
                     }
