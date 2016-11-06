@@ -54,7 +54,7 @@ public:
 
 private:
     QString timeformat(qint64 musictime);
-    void getMusicPix();
+    void getMusicPix(QMediaPlayer *my);
     QMediaPlayer* now = NULL;
     QMediaPlaylist* playlist;
     QQuickView* myView  = NULL;

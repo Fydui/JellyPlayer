@@ -142,9 +142,9 @@ Window {
                 ListView {
                     id: lrclist
                     x:500
-                    y:190
+                    y:30
                     width: 500
-                    height: parent.height - 220
+                    height: parent.height - 120
                     contentWidth: 0
                     model:myLRC
                     anchors.horizontalCenter: right.horizontalCenter
@@ -163,16 +163,6 @@ Window {
                             }
                         }
                     }
-                }
-
-                Image {
-                    id: right_bg
-                    y:10
-                    anchors.horizontalCenter: right.horizontalCenter
-                    width: 175
-                    height: 175
-                    clip: true
-                    source: "///img/img/Qt1.jpg"
                 }
             }
         }
