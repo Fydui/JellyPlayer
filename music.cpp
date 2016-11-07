@@ -77,6 +77,7 @@ void Music::startPlay(QString name)
 
                         QQmlContext* title = this->myView->rootContext();
                         title->setContextProperty("myTITLE",QVariant(this->getMusicTitle()));
+                        showlrc(getMusicTitle(),position);
                 });
                 QQmlContext* max_progress = this->myView->rootContext();
                 max_progress->setContextProperty("setMAX",QVariant(this->now->duration()));
@@ -186,16 +187,33 @@ QString Music::getMusicTitle(QString name){
 
 QStringList Music::showlrc(QString name, qint64 time)
 {
+    const QRegExp rx("\\[(\\d+):(\\d+(\\.\\d+)?)\\]"); //用来查找时间标签的正则表达式
+    QStringList timelist;
     QString name_ = name.section('.',0,0);
-    QTextCodec* codec = QTextCodec::codecForName("GBK");
     QFile mylrc("E:/Code/cpp/IcejellyMusic/music/"+name_+".lrc");
-    mylrc.open(QIODevice::ReadOnly | QIODevice::Text);
-    QStringList lrcList;
-    while(!mylrc.atEnd()){
-        QString str = codec->toUnicode(mylrc.readLine());
-        str = str.section("]",1,1);
-        lrcList.append(str);
+
+    if(this->LrcList.isEmpty()){
+        QTextCodec* codec = QTextCodec::codecForName("GBK");
+        mylrc.open(QIODevice::ReadOnly | QIODevice::Text);
+        while(!mylrc.atEnd()){
+            QString str = codec->toUnicode(mylrc.readLine());
+            QString lrc = str.section("]",1,1);
+            this->LrcList.append(lrc);
+
+            int pos =rx.indexIn(str);
+            if(pos > -1){
+                QString time = rx.cap(0);
+                int totime = (time.mid(1,2).toInt() * 60000) + (time.mid(4,6).toInt() * 1000);
+                timelist.append(time);
+            }
+        }
     }
-    return lrcList;
+    else{
+
+    }
+    return this->LrcList;
 }
 
+void Music::clearLrc(){
+    this->LrcList.clear();
+}
