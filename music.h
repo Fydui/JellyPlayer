@@ -25,6 +25,7 @@ class Music: public QObject
 
 signals:
     void play_pause();
+    void positionChanged();
 
 public:
     Music(QObject *p = 0);
@@ -56,7 +57,10 @@ private:
     QString timeformat(qint64 musictime);
     void getMusicPix(QMediaPlayer *my);
     void clearLrc();
-    QStringList LrcList;
+    QStringList LrcList; //歌词表
+    QStringList timelist;//歌词表所对的时间表
+    vector<int> mylist;
+
     QMediaPlayer* now = NULL;
     QMediaPlaylist* playlist;
     QQuickView* myView  = NULL;

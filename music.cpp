@@ -47,7 +47,7 @@ void Music::ShowMusicList()
 void Music::startPlay(QString name)
 {
     if(this->now != NULL){
-
+        clearLrc(); //先把当前的歌词表清了
         for(int i = 0; i<sizeof(list_[0][0])+1; i++){ //遍历list_
             if(list_[0][i] == name){                //找到用户点击的那个是list_中的第几个(就是传进来的name)
                 delete this->playlist;              //删除之前的playlist 重new一个
@@ -188,27 +188,43 @@ QString Music::getMusicTitle(QString name){
 QStringList Music::showlrc(QString name, qint64 time)
 {
     const QRegExp rx("\\[(\\d+):(\\d+(\\.\\d+)?)\\]"); //用来查找时间标签的正则表达式
-    QStringList timelist;
+
     QString name_ = name.section('.',0,0);
     QFile mylrc("E:/Code/cpp/IcejellyMusic/music/"+name_+".lrc");
 
-    if(this->LrcList.isEmpty()){
-        QTextCodec* codec = QTextCodec::codecForName("GBK");
+    if(this->LrcList.isEmpty()){                      //如果歌词表是空的
+        QTextCodec* codec = QTextCodec::codecForName("GBK");//防止乱码
         mylrc.open(QIODevice::ReadOnly | QIODevice::Text);
         while(!mylrc.atEnd()){
             QString str = codec->toUnicode(mylrc.readLine());
             QString lrc = str.section("]",1,1);
-            this->LrcList.append(lrc);
+            this->LrcList.append(lrc); //歌词列表
 
             int pos =rx.indexIn(str);
             if(pos > -1){
                 QString time = rx.cap(0);
-                int totime = (time.mid(1,2).toInt() * 60000) + (time.mid(4,6).toInt() * 1000);
-                timelist.append(time);
+                QString t2 = time.mid(4,2) + time.mid(7,2);
+                qint64 totime = (time.mid(1,2).toInt() * 60000) + t2.toInt() * 10;
+                //this->timelist.append(QString::number(totime)); //时间列表
+                //int* intime[1000] = new int;
+                //vector<int> mylist;
+                this->mylist.push_back(totime);
+                int a = 10;
             }
         }
     }
     else{
+            int sum = 0;
+            for(int i = 0; i <this->mylist.size(); i++){
+                sum++;
+                if(mylist[i] == time){
+                    goto t;
+                }
+            }
+            t:;
+            sum = 0-(sum*35);
+            QQmlContext* y = this->myView->rootContext();
+            y->setContextProperty("LRC_Y",QVariant(sum));
 
     }
     return this->LrcList;
@@ -216,4 +232,6 @@ QStringList Music::showlrc(QString name, qint64 time)
 
 void Music::clearLrc(){
     this->LrcList.clear();
+    this->timelist.clear();
+    this->mylist.clear();
 }

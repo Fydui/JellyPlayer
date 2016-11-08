@@ -148,11 +148,13 @@ Window {
                     contentWidth: 0
                     model:myLRC
                     anchors.horizontalCenter: right.horizontalCenter
+                    currentIndex: 100
                     spacing: 35
                     delegate: Item {
                         Row {
                             id: row2
                             x:250
+
                             Text {
                                 id: lrc
                                 color: "#C8C8C8"
@@ -160,6 +162,14 @@ Window {
                                 font.pixelSize: 23
                                 text: qsTr(modelData);
                                 anchors.horizontalCenter: row2.horizontalCenter
+                                MouseArea{
+                                    id:a
+                                    width: 100
+                                    height: 30
+                                    onClicked: {
+                                        lrclist.contentY =100
+                                    }
+                                }
                             }
                         }
                     }
