@@ -25,7 +25,7 @@ class Music: public QObject
 
 signals:
     void play_pause();
-    void positionChanged();
+    Q_INVOKABLE void positionChanged();
 
 public:
     Music(QObject *p = 0);
@@ -66,6 +66,7 @@ private:
     QQuickView* myView  = NULL;
     qint64 nowtime = 0;
     qint64 endtime = 0;
+    int mysum = 0;
     int vol = 80;//���� Ĭ��80
     int tag = 0; //����Ϊ0������һ�������ļ�
     bool k = false;

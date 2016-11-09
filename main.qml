@@ -150,6 +150,7 @@ Window {
                     anchors.horizontalCenter: right.horizontalCenter
                     currentIndex: 100
                     spacing: 35
+                    contentY: 100
                     delegate: Item {
                         Row {
                             id: row2
@@ -162,12 +163,10 @@ Window {
                                 font.pixelSize: 23
                                 text: qsTr(modelData);
                                 anchors.horizontalCenter: row2.horizontalCenter
-                                MouseArea{
-                                    id:a
-                                    width: 100
-                                    height: 30
-                                    onClicked: {
-                                        lrclist.contentY =100
+                                Connections {
+                                    target: myPlay
+                                    onPositionChanged: {
+                                        lrclist.contentY = LRC_Y
                                     }
                                 }
                             }
