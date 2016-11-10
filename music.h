@@ -15,6 +15,7 @@
 #include <QMediaPlaylist>
 #include <QTextCodec>
 #include <QMediaMetaData>
+#include <QTime>
 using namespace std;
 
 class Music: public QObject
@@ -26,6 +27,7 @@ class Music: public QObject
 signals:
     void play_pause();
     Q_INVOKABLE void positionChanged();
+//public slots:
 
 public:
     Music(QObject *p = 0);
@@ -46,7 +48,9 @@ public:
     Q_INVOKABLE bool musicLoop(bool l=false); //�Ƿ�ѭ������ Ĭ���б�˳��ѭ��
     Q_INVOKABLE void setNowMusicPos(qint64 nowtime);
     Q_INVOKABLE QQuickView *ViewMusicList();
-    Q_INVOKABLE QStringList showlrc(QString name, qint64 time);
+    Q_INVOKABLE QStringList showlrc(QString name,qint64 time);
+
+
 
     qint64 times();
     void settime(qint64 time_);
@@ -67,6 +71,7 @@ private:
     qint64 nowtime = 0;
     qint64 endtime = 0;
     int mysum = 0;
+    int NOW_MUSIC_TIME = 0;
     int vol = 80;//���� Ĭ��80
     int tag = 0; //����Ϊ0������һ�������ļ�
     bool k = false;
