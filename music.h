@@ -25,8 +25,8 @@ class Music: public QObject
     Q_PROPERTY(qint64 endtime READ endTime WRITE setEndtime)
 
 signals:
-    void play_pause();
     Q_INVOKABLE void positionChanged();
+    Q_INVOKABLE void clearlrcview();
 //public slots:
 
 public:
@@ -61,9 +61,9 @@ private:
     QString timeformat(qint64 musictime);
     void getMusicPix(QMediaPlayer *my);
     void clearLrc();
+    void cleraLrcView();
     QStringList LrcList; //歌词表
-    QStringList timelist;//歌词表所对的时间表
-    vector<int> mylist;
+    vector<int> timelist;
 
     QMediaPlayer* now = NULL;
     QMediaPlaylist* playlist;
@@ -71,7 +71,6 @@ private:
     qint64 nowtime = 0;
     qint64 endtime = 0;
     int mysum = 0;
-    int NOW_MUSIC_TIME = 0;
     int vol = 80;//���� Ĭ��80
     int tag = 0; //����Ϊ0������һ�������ļ�
     bool k = false;

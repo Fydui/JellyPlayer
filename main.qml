@@ -152,6 +152,7 @@ Window {
                     spacing: 35
                     contentY: 100
                     delegate: Item {
+                        id:listitem
                         Row {
                             id: row2
                             x:250
@@ -167,6 +168,9 @@ Window {
                                     target: myPlay
                                     onPositionChanged: {
                                         lrclist.contentY = LRC_Y
+                                    }
+                                    onClearlrcview: {
+
                                     }
                                 }
                             }

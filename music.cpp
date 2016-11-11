@@ -3,7 +3,6 @@ vector<vector<QString>> list_(1,vector<QString>(1));
 extern  QQmlApplicationEngine* engine;
 extern QQuickView* view;
 using namespace std;
-
 Music::Music(QObject *p):
     QObject(p)
 {
@@ -46,7 +45,7 @@ void Music::ShowMusicList()
 void Music::startPlay(QString name)
 {
     if(this->now != NULL){
-        clearLrc(); //先把当前的歌词表清了
+        cleraLrcView(); //先把当前的歌词表清了
         for(int i = 0; i<sizeof(list_[0][0])+1; i++){ //遍历list_
             if(list_[0][i] == name){                //找到用户点击的那个是list_中的第几个(就是传进来的name)
                 delete this->playlist;              //删除之前的playlist 重new一个
@@ -185,7 +184,6 @@ QString Music::getMusicTitle(QString name){
 
 QStringList Music::showlrc(QString name,qint64 time)
 {
-    NOW_MUSIC_TIME += 10;
     if(this->LrcList.isEmpty()){                      //如果歌词表是空的
         const QRegExp rx("\\[(\\d+):(\\d+(\\.\\d+)?)\\]"); //用来查找时间标签的正则表达式
         QString name_ = name.section('.',0,0);
@@ -196,7 +194,8 @@ QStringList Music::showlrc(QString name,qint64 time)
             QString str = codec->toUnicode(mylrc.readLine());
             QString lrc = str.section("]",1,1);
             this->LrcList.append(lrc); //歌词列表
-
+            QQmlContext* lrc_list = this->myView->rootContext();
+            lrc_list->setContextProperty("myLRC",QVariant::fromValue(LrcList));
             int pos =rx.indexIn(str);
             if(pos > -1){
                 QString time = rx.cap(0);
@@ -205,16 +204,16 @@ QStringList Music::showlrc(QString name,qint64 time)
                 //int i1 = t1.toInt()*60000;
                 //int i2 = t2.toInt()/100;
                 //int ad = i1 + i2;
-                qint64 totime = (time.mid(1,2).toInt()*60000) + t2.toInt()/100;
-                this->mylist.push_back(totime);
-                int a = 10;
+                qint64 totime = (time.mid(1,2).toInt()*60) + t2.toInt()/100;
+                this->timelist.push_back(totime);
+
             }
         }
     }
     else{
         int timee = time/1000;
-        for(int i = 0; i < this->mylist.size(); i++){
-            if(mylist[i] == timee && timee!=0){
+        for(int i = 0; i < this->timelist.size(); i++){
+            if(timelist[i] == timee && timee!=0){
                 mysum = i*35;     //设置滚动距离
                 positionChanged();//发射滚动信号
                 QQmlContext* y = this->myView->rootContext();
@@ -228,5 +227,9 @@ QStringList Music::showlrc(QString name,qint64 time)
 void Music::clearLrc(){
     this->LrcList.clear();
     this->timelist.clear();
-    this->mylist.clear();
+}
+
+void Music::cleraLrcView(){
+    clearLrc();
+    clearlrcview();
 }
