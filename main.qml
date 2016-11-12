@@ -2,14 +2,8 @@
 import QtQuick.Window 2.2
 import QtQuick.Layouts 1.1
 import my.Music 1.0
-import QtMultimedia 5.6
-import QtQuick.Controls 2.0
 import QtQuick.Controls 1.4
-import QtQuick.Dialogs 1.2
-import QtQuick.Controls.Styles 1.4
-import QtQuick.Layouts 1.1
-import QtQuick.Window 2.0
-import QtQuick 2.0
+
 Window {
     visible: true
     width: 1080
@@ -143,14 +137,16 @@ Window {
                     id: lrclist
                     x:500
                     y:30
+                    parent: right
                     width: 500
                     height: parent.height - 120
                     contentWidth: 0
-                    model:myLRC
+                    model: myLRC
                     anchors.horizontalCenter: right.horizontalCenter
                     currentIndex: 100
                     spacing: 35
                     contentY: 100
+
                     delegate: Item {
                         id:listitem
                         Row {
@@ -170,7 +166,7 @@ Window {
                                         lrclist.contentY = LRC_Y
                                     }
                                     onClearlrcview: {
-
+                                        myLRC.clear
                                     }
                                 }
                             }

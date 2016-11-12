@@ -71,8 +71,8 @@ private:
     qint64 nowtime = 0;
     qint64 endtime = 0;
     int mysum = 0;
-    int vol = 80;//���� Ĭ��80
-    int tag = 0; //����Ϊ0������һ�������ļ�
+    int vol = 80;//音量默认80
+    int tag = 0;
     bool k = false;
 
 };

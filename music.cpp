@@ -1,5 +1,6 @@
 ﻿#include "music.h"
 vector<vector<QString>> list_(1,vector<QString>(1));
+QTextCodec* codec = QTextCodec::codecForName("GBK");
 extern  QQmlApplicationEngine* engine;
 extern QQuickView* view;
 using namespace std;
@@ -8,6 +9,8 @@ Music::Music(QObject *p):
 {
     this->now = new QMediaPlayer;
     this->playlist = new QMediaPlaylist;
+    this->LrcList.clear();
+    this->timelist.clear();
 }
 
 Music::~Music()
@@ -15,11 +18,12 @@ Music::~Music()
     delete this->now;
     delete this->playlist;
     delete this->myView;
+    this->LrcList.clear();
+    this->timelist.clear();
     list_.clear();
 }
 void Music::ShowMusicList()
 {
-    QTextCodec* codec = QTextCodec::codecForName("GBK");
     qmlRegisterType<Music>("my.Music",1,0,"Music");
 
     _finddata_t file;
@@ -45,7 +49,6 @@ void Music::ShowMusicList()
 void Music::startPlay(QString name)
 {
     if(this->now != NULL){
-        cleraLrcView(); //先把当前的歌词表清了
         for(int i = 0; i<sizeof(list_[0][0])+1; i++){ //遍历list_
             if(list_[0][i] == name){                //找到用户点击的那个是list_中的第几个(就是传进来的name)
                 delete this->playlist;              //删除之前的playlist 重new一个
@@ -59,6 +62,7 @@ void Music::startPlay(QString name)
                 this->now = new QMediaPlayer;
                 this->playlist->setCurrentIndex(1);     //这函数我也不知道干啥的 有人说是设置当前音乐为第一个播放?
                 this->now->setPlaylist(this->playlist); //对now指针 设置播放列表
+                cleraLrcView(); //先把当前的歌词表清了
                 QObject::connect(now, &QMediaPlayer::positionChanged, [this](qint64 position){
                     if(this->now->duration() != 0)
                         this->setEndtime(this->now->duration());  //获取当前音乐的总时长
@@ -69,22 +73,19 @@ void Music::startPlay(QString name)
 
                         QQmlContext* now_progress = this->myView->rootContext();
                         now_progress->setContextProperty("setNOW",QVariant(position));
-
-                        QQmlContext* e_time  = this->myView->rootContext();
-                        e_time->setContextProperty("myETIME",QVariant(this->timeformat(this->endtime)));
-
-                        QQmlContext* title = this->myView->rootContext();
-                        title->setContextProperty("myTITLE",QVariant(this->getMusicTitle()));
                         showlrc(this->getMusicTitle(),position);
+
                 });
+                QQmlContext* e_time  = this->myView->rootContext();
+                e_time->setContextProperty("myETIME",QVariant(this->timeformat(this->endtime)));
+
+                QQmlContext* title = this->myView->rootContext();
+                title->setContextProperty("myTITLE",QVariant(this->getMusicTitle()));
 
                 this->setVol(this->vol);                       //音量
                 this->now->play();                      // Let's Play!
-
             }
         }
-
-
     }
 }
 
@@ -135,14 +136,11 @@ QQuickView* Music::ViewMusicList()
     return view;
 }
 
-void Music::setNowMusicPos(qint64 time)
-{
+void Music::setNowMusicPos(qint64 time){
     this->now->setPosition(time);
 }
 
-void Music::setview(QQuickView* v)
-{
-
+void Music::setview(QQuickView* v){
     this->myView = v;
 }
 
@@ -188,8 +186,8 @@ QStringList Music::showlrc(QString name,qint64 time)
         const QRegExp rx("\\[(\\d+):(\\d+(\\.\\d+)?)\\]"); //用来查找时间标签的正则表达式
         QString name_ = name.section('.',0,0);
         QFile mylrc("E:/Code/cpp/IcejellyMusic/music/"+name_+".lrc");
-        QTextCodec* codec = QTextCodec::codecForName("GBK");//防止乱码
-        mylrc.open(QIODevice::ReadOnly | QIODevice::Text);
+        if(!mylrc.open(QIODevice::ReadOnly | QIODevice::Text)) return this->LrcList;
+
         while(!mylrc.atEnd()){
             QString str = codec->toUnicode(mylrc.readLine());
             QString lrc = str.section("]",1,1);
@@ -199,11 +197,7 @@ QStringList Music::showlrc(QString name,qint64 time)
             int pos =rx.indexIn(str);
             if(pos > -1){
                 QString time = rx.cap(0);
-                //QString t1 = time.mid(1,2);
                 QString t2 = time.mid(4,2) + time.mid(7,2);
-                //int i1 = t1.toInt()*60000;
-                //int i2 = t2.toInt()/100;
-                //int ad = i1 + i2;
                 qint64 totime = (time.mid(1,2).toInt()*60) + t2.toInt()/100;
                 this->timelist.push_back(totime);
 
@@ -215,12 +209,14 @@ QStringList Music::showlrc(QString name,qint64 time)
         for(int i = 0; i < this->timelist.size(); i++){
             if(timelist[i] == timee && timee!=0){
                 mysum = i*35;     //设置滚动距离
-                positionChanged();//发射滚动信号
+                positionChanged();
                 QQmlContext* y = this->myView->rootContext();
                 y->setContextProperty("LRC_Y",QVariant(mysum));//滚动
             }
         }
+
     }
+
     return this->LrcList;
 }
 
@@ -231,5 +227,9 @@ void Music::clearLrc(){
 
 void Music::cleraLrcView(){
     clearLrc();
-    clearlrcview();
+    QStringList* str = new QStringList;
+    str->append("没找到歌词");
+    QQmlContext* clear = this->myView->rootContext();
+    clear->setContextProperty("myLRC",QVariant::fromValue(*str));
+    delete str;
 }
