@@ -1,13 +1,13 @@
-﻿import QtQuick 2.5
-import QtQuick.Controls 2.0
-import QtQuick.Controls 1.4
-import QtQuick.Dialogs 1.2
-import QtQuick.Controls.Styles 1.4
+﻿//import QtQuick 2.5
+//import QtQuick.Controls 2.0
+//import QtQuick.Controls 1.4
+//import QtQuick.Dialogs 1.2
+//import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.1
-import QtQuick.Window 2.0
+//import QtQuick.Window 2.0
 import QtQuick 2.0
 import my.Music 1.0
-import QtMultimedia 5.6
+//import QtMultimedia 5.6
 
 Rectangle {
     id: main

@@ -35,7 +35,7 @@ void Music::ShowMusicList()
         QString str = codec->toUnicode(file.name);
         list_[0].push_back(str); //动态分配
         list_[0][i]= str;
-        this->playlist->addMedia(QUrl("E:/Code/cpp/IcejellyMusic/music/"+str));
+        this->playlist->addMedia(QUrl("music/"+str));
         k = _findnext( HANDLE, &file );
         i++;
     }
@@ -55,7 +55,7 @@ void Music::startPlay(QString name)
                 this->playlist = new QMediaPlaylist;
 
                 for(int j = i; j<sizeof(list_[0][0])+1;j++){ //从i开始 也就是用户点击的那个音乐(name)开始 往后构建播放列表 前面的不要了
-                    this->playlist->addMedia(QUrl("E:/Code/cpp/IcejellyMusic/music/"+list_[0][j]));;
+                    this->playlist->addMedia(QUrl("music/"+list_[0][j]));;
                 }
                 this->tag = i;                          //把标记设为当前音乐在list_中所处的位置 用于上下切歌
                 delete this->now;                       //删除当前的音乐指针 重new一个
@@ -185,7 +185,7 @@ QStringList Music::showlrc(QString name,qint64 time)
     if(this->LrcList.isEmpty()){                      //如果歌词表是空的
         const QRegExp rx("\\[(\\d+):(\\d+(\\.\\d+)?)\\]"); //用来查找时间标签的正则表达式
         QString name_ = name.section('.',0,0);
-        QFile mylrc("E:/Code/cpp/IcejellyMusic/music/"+name_+".lrc");
+        QFile mylrc("music/"+name_+".lrc");
         if(!mylrc.open(QIODevice::ReadOnly | QIODevice::Text)) return this->LrcList;
 
         while(!mylrc.atEnd()){
