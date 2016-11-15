@@ -49,12 +49,12 @@ void Music::ShowMusicList()
 void Music::startPlay(QString name)
 {
     if(this->now != NULL){
-        for(int i = 0; i<sizeof(list_[0][0])+1; i++){ //遍历list_
+        for(int i = 0; i<list_[0].size(); i++){ //遍历list_
             if(list_[0][i] == name){                //找到用户点击的那个是list_中的第几个(就是传进来的name)
                 delete this->playlist;              //删除之前的playlist 重new一个
                 this->playlist = new QMediaPlaylist;
 
-                for(int j = i; j<sizeof(list_[0][0])+1;j++){ //从i开始 也就是用户点击的那个音乐(name)开始 往后构建播放列表 前面的不要了
+                for(int j = i; j<list_[0].size();j++){ //从i开始 也就是用户点击的那个音乐(name)开始 往后构建播放列表 前面的不要了
                     this->playlist->addMedia(QUrl("music/"+list_[0][j]));;
                 }
                 this->tag = i;                          //把标记设为当前音乐在list_中所处的位置 用于上下切歌
@@ -75,12 +75,13 @@ void Music::startPlay(QString name)
                         now_progress->setContextProperty("setNOW",QVariant(position));
                         showlrc(this->getMusicTitle(),position);
 
-                });
-                QQmlContext* e_time  = this->myView->rootContext();
-                e_time->setContextProperty("myETIME",QVariant(this->timeformat(this->endtime)));
+                        QQmlContext* e_time  = this->myView->rootContext();
+                        e_time->setContextProperty("myETIME",QVariant(this->timeformat(this->endtime)));
 
-                QQmlContext* title = this->myView->rootContext();
-                title->setContextProperty("myTITLE",QVariant(this->getMusicTitle()));
+                        QQmlContext* title = this->myView->rootContext();
+                        title->setContextProperty("myTITLE",QVariant(this->getMusicTitle()));
+
+                });
 
                 this->setVol(this->vol);                       //音量
                 this->now->play();                      // Let's Play!
