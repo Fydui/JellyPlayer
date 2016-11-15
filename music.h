@@ -34,8 +34,9 @@ public:
     ~Music();
     //vector<vector<QString>>* list; //vector<vector<QString>> list(1,vector<QString>(1));
     QString name;
+    //Q_INVOKABLE void setview(QQuickView* view2);
     Q_INVOKABLE void startPlay(QString name);
-    Q_INVOKABLE void setview(QQuickView *v);
+    Q_INVOKABLE void setview(QQmlApplicationEngine *v);
     Q_INVOKABLE void ShowMusicList();
     Q_INVOKABLE void lastMusic();
     Q_INVOKABLE void nextMusic();
@@ -67,7 +68,8 @@ private:
 
     QMediaPlayer* now = NULL;
     QMediaPlaylist* playlist;
-    QQuickView* myView  = NULL;
+    //QQuickView* myView  = NULL;
+    QQmlApplicationEngine* myView  = NULL;
     qint64 nowtime = 0;
     qint64 endtime = 0;
     int mysum = 0;

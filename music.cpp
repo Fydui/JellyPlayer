@@ -140,10 +140,13 @@ void Music::setNowMusicPos(qint64 time){
     this->now->setPosition(time);
 }
 
-void Music::setview(QQuickView* v){
+void Music::setview(QQmlApplicationEngine* v){
     this->myView = v;
 }
-
+/*
+void Music::setview(QQuickView *view2){
+    //this->myView = view2;
+}*/
 void Music::setEndtime(qint64 settime_){
     this->endtime = settime_;
 }
