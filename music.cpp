@@ -3,6 +3,7 @@ vector<vector<QString>> list_(1,vector<QString>(1));
 QTextCodec* codec = QTextCodec::codecForName("GBK");
 extern  QQmlApplicationEngine* engine;
 extern QQuickView* view;
+int PLAYERTYPE = 0;
 using namespace std;
 Music::Music(QObject *p):
     QObject(p)
@@ -117,9 +118,44 @@ void Music::nextMusic(){
     if(list_[0][tag+1]  != "" && this->now != NULL)
         this->startPlay(list_[0][tag+1]);
 }
-bool Music::musicLoop(bool l){
-    //if(l && )
-      //  this->startPlay(list_[0][tag]);
+QVariant Music::musicType(){
+
+    if(PLAYERTYPE > 4) PLAYERTYPE = 0;
+    switch (PLAYERTYPE) {
+    case 0:{
+        this->playlist->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);//当前循环
+        QVariant t("///img/img/当前循环.png");
+        PLAYERTYPE++;
+        return t;
+    }
+    case 1:{
+        this->playlist->setPlaybackMode(QMediaPlaylist::CurrentItemOnce);  //当前只放一次
+        QVariant t("///img/img/单次播放.png");
+        PLAYERTYPE++;
+        return t;
+    }
+    case 2:{
+        this->playlist->setPlaybackMode(QMediaPlaylist::Sequential);//顺序播放
+        QVariant t("///img/img/顺序播放.png");
+        PLAYERTYPE++;
+        return t;
+    }
+    case 3:{
+        this->playlist->setPlaybackMode(QMediaPlaylist::Loop);//列表循环
+        QVariant t("///img/img/列表循环.png");
+        PLAYERTYPE++;
+        return t;
+    }
+    case 4:{
+        this->playlist->setPlaybackMode(QMediaPlaylist::Random);//随机播放
+        QVariant t("///img/img/随机播放.png");
+        PLAYERTYPE++;
+        return t;
+    }
+    default:
+        QVariant t("");
+        return t;
+    }
 }
 
 QQuickView* Music::ViewMusicList()

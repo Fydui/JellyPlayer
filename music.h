@@ -46,7 +46,7 @@ public:
     Q_INVOKABLE qint64 getEndtime();
     Q_INVOKABLE QString getMusicTitle();
     Q_INVOKABLE QString getMusicTitle(QString name);
-    Q_INVOKABLE bool musicLoop(bool l=false); //�Ƿ�ѭ������ Ĭ���б�˳��ѭ��
+    Q_INVOKABLE QVariant musicType(); //�Ƿ�ѭ������ Ĭ���б�˳��ѭ��
     Q_INVOKABLE void setNowMusicPos(qint64 nowtime);
     Q_INVOKABLE QQuickView *ViewMusicList();
     Q_INVOKABLE QStringList showlrc(QString name,qint64 time);

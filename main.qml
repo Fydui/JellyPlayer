@@ -363,15 +363,24 @@ Window {
 
                     Button {
                         id: loop
-                        x: 175
-                        y: 20
-                        width: 30
-                        height: 20
-                        text: qsTr("")
-                        Layout.minimumHeight: 20
-                        Layout.minimumWidth: 30
-                        Layout.maximumHeight: 20
-                        Layout.maximumWidth: 30
+                        x: 165
+                        y: 10
+                        width: 40
+                        height: 30
+                        Layout.minimumHeight: 30
+                        Layout.minimumWidth: 40
+                        Layout.maximumHeight: 30
+                        Layout.maximumWidth: 40
+                        onClicked: {
+                            //myPlay.musicType();
+                            musictype_bg.source= myPlay.musicType()
+                        }
+                        Image {
+                            id:musictype_bg
+                            width: parent.width
+                            height: parent.height
+                            source: myPlay.musicType()
+                        }
                     }
 
                 }
