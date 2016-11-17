@@ -4,6 +4,7 @@ QTextCodec* codec = QTextCodec::codecForName("GBK");
 extern  QQmlApplicationEngine* engine;
 extern QQuickView* view;
 int PLAYERTYPE = 0;
+int MUSICPOS = 0;
 using namespace std;
 Music::Music(QObject *p):
     QObject(p)
@@ -50,6 +51,7 @@ void Music::ShowMusicList()
 void Music::startPlay(QString name)
 {
     if(this->now != NULL){
+        MUSICPOS = 0;
         for(int i = 0; i<list_[0].size(); i++){ //遍历list_
             if(list_[0][i] == name){                //找到用户点击的那个是list_中的第几个(就是传进来的name)
                 delete this->playlist;              //删除之前的playlist 重new一个
@@ -58,9 +60,9 @@ void Music::startPlay(QString name)
                 for(int j = i; j<list_[0].size();j++){ //从i开始 也就是用户点击的那个音乐(name)开始 往后构建播放列表 前面的不要了
                     this->playlist->addMedia(QUrl("music/"+list_[0][j]));;
                 }
-                this->tag = i;                          //把标记设为当前音乐在list_中所处的位置 用于上下切歌
                 delete this->now;                       //删除当前的音乐指针 重new一个
                 this->now = new QMediaPlayer;
+                MUSICPOS =i;
                 this->playlist->setCurrentIndex(1);     //这函数我也不知道干啥的 有人说是设置当前音乐为第一个播放?
                 this->now->setPlaylist(this->playlist); //对now指针 设置播放列表
                 cleraLrcView(); //先把当前的歌词表清了
@@ -79,13 +81,20 @@ void Music::startPlay(QString name)
                         QQmlContext* e_time  = this->myView->rootContext();
                         e_time->setContextProperty("myETIME",QVariant(this->timeformat(this->endtime)));
 
-                        QQmlContext* title = this->myView->rootContext();
-                        title->setContextProperty("myTITLE",QVariant(this->getMusicTitle()));
-
+                        if(this->now->isAudioAvailable()){ //如果当前音乐可以播放
+                            this->tag = MUSICPOS;
+                            QQmlContext* title = this->myView->rootContext();
+                            title->setContextProperty("myTITLE",QVariant(getMusicTitle()));
+                        }
+                });
+                QObject::connect(now,&QMediaPlayer::currentMediaChanged,[this](){
+                    this->cleraLrcView();
                 });
 
                 this->setVol(this->vol);                       //音量
                 this->now->play();                      // Let's Play!
+
+
             }
         }
     }
@@ -123,8 +132,8 @@ QVariant Music::musicType(){
     if(PLAYERTYPE > 4) PLAYERTYPE = 0;
     switch (PLAYERTYPE) {
     case 0:{
-        this->playlist->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);//当前循环
-        QVariant t("///img/img/当前循环.png");
+        this->playlist->setPlaybackMode(QMediaPlaylist::Loop);//列表循环
+        QVariant t("///img/img/列表循环.png");
         PLAYERTYPE++;
         return t;
     }
@@ -141,8 +150,8 @@ QVariant Music::musicType(){
         return t;
     }
     case 3:{
-        this->playlist->setPlaybackMode(QMediaPlaylist::Loop);//列表循环
-        QVariant t("///img/img/列表循环.png");
+        this->playlist->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);//当前循环
+        QVariant t("///img/img/当前循环.png");
         PLAYERTYPE++;
         return t;
     }
@@ -213,6 +222,7 @@ QString Music::timeformat(qint64 musictime){ //格式化时间 形参单位毫�
 }
 
 QString Music::getMusicTitle(){
+
     return list_[0][this->tag];
 }
 

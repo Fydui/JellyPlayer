@@ -29,6 +29,9 @@ signals:
     Q_INVOKABLE void clearlrcview();
 //public slots:
 
+
+
+
 public:
     Music(QObject *p = 0);
     ~Music();
@@ -44,12 +47,12 @@ public:
     Q_INVOKABLE void setVol(int v= 80);  //��������
     Q_INVOKABLE int getVol();
     Q_INVOKABLE qint64 getEndtime();
-    Q_INVOKABLE QString getMusicTitle();
     Q_INVOKABLE QString getMusicTitle(QString name);
+    Q_INVOKABLE QString getMusicTitle();
+    Q_INVOKABLE QStringList showlrc(QString name,qint64 time);
     Q_INVOKABLE QVariant musicType(); //�Ƿ�ѭ������ Ĭ���б�˳��ѭ��
     Q_INVOKABLE void setNowMusicPos(qint64 nowtime);
     Q_INVOKABLE QQuickView *ViewMusicList();
-    Q_INVOKABLE QStringList showlrc(QString name,qint64 time);
 
 
 

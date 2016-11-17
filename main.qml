@@ -189,7 +189,7 @@ Window {
             Layout.fillHeight: false
             clip: true
 
-            Button {
+            MouseArea {
                 id: last
                 x: 50
                 y: 13
@@ -213,7 +213,7 @@ Window {
                 }
             }
 
-            Button {
+            MouseArea {
                 id: sta_pau
                 x: 120
                 y: 8
@@ -239,7 +239,7 @@ Window {
 
             }
 
-            Button {
+            MouseArea {
                 id: next
                 x: 200
                 y: 13
@@ -361,7 +361,7 @@ Window {
                         }
                     }
 
-                    Button {
+                    /*Button {
                         id: loop
                         x: 165
                         y: 10
@@ -374,14 +374,31 @@ Window {
                         onClicked: {
                             //myPlay.musicType();
                             musictype_bg.source= myPlay.musicType()
+                        }*/
+                    MouseArea{
+                        id:musictype_cd
+                        x: 165
+                        y: 10
+                        width: 40
+                        height: 30
+                        onClicked: {
+                            //myPlay.musicType();
+                            musictype_bg.source= myPlay.musicType()
                         }
                         Image {
                             id:musictype_bg
-                            width: parent.width
-                            height: parent.height
+                            width: 40
+                            height: 30
+                            Layout.minimumHeight: 30
+                            Layout.minimumWidth: 40
+                            Layout.maximumHeight: 30
+                            Layout.maximumWidth: 40
                             source: myPlay.musicType()
+
                         }
                     }
+
+                    //}
 
                 }
             }
