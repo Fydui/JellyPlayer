@@ -1,11 +1,14 @@
 ﻿#include "music.h"
+#include <thread>
 vector<vector<QString>> list_(1,vector<QString>(1));
 QTextCodec* codec = QTextCodec::codecForName("GBK");
 extern  QQmlApplicationEngine* engine;
 extern QQuickView* view;
 int PLAYERTYPE = 0;
 int MUSICPOS = 0;
+
 using namespace std;
+using namespace this_thread;
 Music::Music(QObject *p):
     QObject(p)
 {
@@ -65,7 +68,15 @@ void Music::startPlay(QString name)
                 MUSICPOS =i;
                 this->playlist->setCurrentIndex(1);     //这函数我也不知道干啥的 有人说是设置当前音乐为第一个播放?
                 this->now->setPlaylist(this->playlist); //对now指针 设置播放列表
+
                 cleraLrcView(); //先把当前的歌词表清了
+                QObject::connect(now,&QMediaPlayer::currentMediaChanged,[this](){
+                    this->cleraLrcView();
+                    int thisPOS = this->playlist->nextIndex();
+                    QQmlContext* title = this->myView->rootContext();
+                    title->setContextProperty("myTITLE",QVariant(list_[0][MUSICPOS+thisPOS-1]));
+                });
+
                 QObject::connect(now, &QMediaPlayer::positionChanged, [this](qint64 position){
                     if(this->now->duration() != 0)
                         this->setEndtime(this->now->duration());  //获取当前音乐的总时长
@@ -76,19 +87,15 @@ void Music::startPlay(QString name)
 
                         QQmlContext* now_progress = this->myView->rootContext();
                         now_progress->setContextProperty("setNOW",QVariant(position));
-                        showlrc(this->getMusicTitle(),position);
 
                         QQmlContext* e_time  = this->myView->rootContext();
                         e_time->setContextProperty("myETIME",QVariant(this->timeformat(this->endtime)));
 
+                        showlrc(this->getMusicTitle(),position);
+
                         if(this->now->isAudioAvailable()){ //如果当前音乐可以播放
                             this->tag = MUSICPOS;
-                            QQmlContext* title = this->myView->rootContext();
-                            title->setContextProperty("myTITLE",QVariant(getMusicTitle()));
                         }
-                });
-                QObject::connect(now,&QMediaPlayer::currentMediaChanged,[this](){
-                    this->cleraLrcView();
                 });
 
                 this->setVol(this->vol);                       //音量
@@ -222,12 +229,7 @@ QString Music::timeformat(qint64 musictime){ //格式化时间 形参单位毫�
 }
 
 QString Music::getMusicTitle(){
-
     return list_[0][this->tag];
-}
-
-QString Music::getMusicTitle(QString name){
-    return name;
 }
 
 QStringList Music::showlrc(QString name,qint64 time)

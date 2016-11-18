@@ -16,6 +16,7 @@
 #include <QTextCodec>
 #include <QMediaMetaData>
 #include <QTime>
+#include <thread>
 using namespace std;
 
 class Music: public QObject
@@ -47,7 +48,6 @@ public:
     Q_INVOKABLE void setVol(int v= 80);  //��������
     Q_INVOKABLE int getVol();
     Q_INVOKABLE qint64 getEndtime();
-    Q_INVOKABLE QString getMusicTitle(QString name);
     Q_INVOKABLE QString getMusicTitle();
     Q_INVOKABLE QStringList showlrc(QString name,qint64 time);
     Q_INVOKABLE QVariant musicType(); //�Ƿ�ѭ������ Ĭ���б�˳��ѭ��
