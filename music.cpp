@@ -71,10 +71,10 @@ void Music::startPlay(QString name)
 
                 cleraLrcView(); //先把当前的歌词表清了
                 QObject::connect(now,&QMediaPlayer::currentMediaChanged,[this](){
-                    this->cleraLrcView();
+                    //this->cleraLrcView();
                     int thisPOS = this->playlist->nextIndex();
                     QQmlContext* title = this->myView->rootContext();
-                    title->setContextProperty("myTITLE",QVariant(list_[0][MUSICPOS+thisPOS-1]));
+                    title->setContextProperty("myTITLE",QVariant(list_[0][MUSICPOS+thisPOS]));
                 });
 
                 QObject::connect(now, &QMediaPlayer::positionChanged, [this](qint64 position){
@@ -90,6 +90,10 @@ void Music::startPlay(QString name)
 
                         QQmlContext* e_time  = this->myView->rootContext();
                         e_time->setContextProperty("myETIME",QVariant(this->timeformat(this->endtime)));
+
+                        int thisPOS = this->playlist->nextIndex();
+                        QQmlContext* title = this->myView->rootContext();
+                        title->setContextProperty("myTITLE",QVariant(list_[0][MUSICPOS+thisPOS-1]));
 
                         showlrc(this->getMusicTitle(),position);
 
