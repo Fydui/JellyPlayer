@@ -6,6 +6,7 @@ extern  QQmlApplicationEngine* engine;
 extern QQuickView* view;
 int PLAYERTYPE = 0;
 int MUSICPOS = 0;
+int thisPOS = 0;
 
 using namespace std;
 using namespace this_thread;
@@ -71,12 +72,10 @@ void Music::startPlay(QString name)
 
                 cleraLrcView(); //先把当前的歌词表清了
                 QObject::connect(now,&QMediaPlayer::currentMediaChanged,[this](){
-                    //this->cleraLrcView();
-                    int thisPOS = this->playlist->nextIndex();
+                    int temp = MUSICPOS + this->playlist->nextIndex();
                     QQmlContext* title = this->myView->rootContext();
-                    title->setContextProperty("myTITLE",QVariant(list_[0][MUSICPOS+thisPOS]));
+                    title->setContextProperty("myTITLE",QVariant(list_[0][temp-1]));
                 });
-
                 QObject::connect(now, &QMediaPlayer::positionChanged, [this](qint64 position){
                     if(this->now->duration() != 0)
                         this->setEndtime(this->now->duration());  //获取当前音乐的总时长
@@ -90,17 +89,16 @@ void Music::startPlay(QString name)
 
                         QQmlContext* e_time  = this->myView->rootContext();
                         e_time->setContextProperty("myETIME",QVariant(this->timeformat(this->endtime)));
-
-                        int thisPOS = this->playlist->nextIndex();
+                        int temp = MUSICPOS + this->playlist->nextIndex();
                         QQmlContext* title = this->myView->rootContext();
-                        title->setContextProperty("myTITLE",QVariant(list_[0][MUSICPOS+thisPOS-1]));
-
-                        showlrc(this->getMusicTitle(),position);
+                        title->setContextProperty("myTITLE",QVariant(list_[0][temp-1]));
+                        showlrc(list_[0][temp-1],position);
 
                         if(this->now->isAudioAvailable()){ //如果当前音乐可以播放
                             this->tag = MUSICPOS;
                         }
                 });
+
 
                 this->setVol(this->vol);                       //音量
                 this->now->play();                      // Let's Play!
@@ -143,14 +141,15 @@ QVariant Music::musicType(){
     if(PLAYERTYPE > 4) PLAYERTYPE = 0;
     switch (PLAYERTYPE) {
     case 0:{
-        this->playlist->setPlaybackMode(QMediaPlaylist::Loop);//列表循环
-        QVariant t("///img/img/列表循环.png");
+        this->playlist->setPlaybackMode(QMediaPlaylist::CurrentItemOnce);  //当前只放一次
+        QVariant t("///img/img/单次播放.png");
         PLAYERTYPE++;
         return t;
     }
     case 1:{
-        this->playlist->setPlaybackMode(QMediaPlaylist::CurrentItemOnce);  //当前只放一次
-        QVariant t("///img/img/单次播放.png");
+        this->playlist->setPlaybackMode(QMediaPlaylist::Loop);//列表循环
+        QVariant t("///img/img/列表循环.png");
+
         PLAYERTYPE++;
         return t;
     }
