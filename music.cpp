@@ -72,9 +72,8 @@ void Music::startPlay(QString name)
 
                 cleraLrcView(); //先把当前的歌词表清了
                 QObject::connect(now,&QMediaPlayer::currentMediaChanged,[this](){
-                    int temp = MUSICPOS + this->playlist->nextIndex();
-                    QQmlContext* title = this->myView->rootContext();
-                    title->setContextProperty("myTITLE",QVariant(list_[0][temp-1]));
+                    thisPOS= this->playlist->currentIndex();
+                    cleraLrcView();
                 });
                 QObject::connect(now, &QMediaPlayer::positionChanged, [this](qint64 position){
                     if(this->now->duration() != 0)
@@ -89,10 +88,11 @@ void Music::startPlay(QString name)
 
                         QQmlContext* e_time  = this->myView->rootContext();
                         e_time->setContextProperty("myETIME",QVariant(this->timeformat(this->endtime)));
-                        int temp = MUSICPOS + this->playlist->nextIndex();
                         QQmlContext* title = this->myView->rootContext();
-                        title->setContextProperty("myTITLE",QVariant(list_[0][temp-1]));
-                        showlrc(list_[0][temp-1],position);
+
+                        //int index= this->playlist->currentIndex();
+                        title->setContextProperty("myTITLE",QVariant(list_[0][thisPOS+MUSICPOS]));
+                        showlrc(list_[0][thisPOS+MUSICPOS],position);
 
                         if(this->now->isAudioAvailable()){ //如果当前音乐可以播放
                             this->tag = MUSICPOS;
@@ -141,21 +141,20 @@ QVariant Music::musicType(){
     if(PLAYERTYPE > 4) PLAYERTYPE = 0;
     switch (PLAYERTYPE) {
     case 0:{
-        this->playlist->setPlaybackMode(QMediaPlaylist::CurrentItemOnce);  //当前只放一次
-        QVariant t("///img/img/单次播放.png");
+        this->playlist->setPlaybackMode(QMediaPlaylist::Sequential);//顺序播放
+        QVariant t("///img/img/顺序播放.png");
         PLAYERTYPE++;
         return t;
     }
     case 1:{
         this->playlist->setPlaybackMode(QMediaPlaylist::Loop);//列表循环
         QVariant t("///img/img/列表循环.png");
-
         PLAYERTYPE++;
         return t;
     }
     case 2:{
-        this->playlist->setPlaybackMode(QMediaPlaylist::Sequential);//顺序播放
-        QVariant t("///img/img/顺序播放.png");
+        this->playlist->setPlaybackMode(QMediaPlaylist::CurrentItemOnce);  //当前只放一次
+        QVariant t("///img/img/单次播放.png");
         PLAYERTYPE++;
         return t;
     }
