@@ -1,4 +1,4 @@
-ï»¿#ifndef MUSIC_H
+#ifndef MUSIC_H
 #define MUSIC_H
 
 #include <QObject>
@@ -16,7 +16,6 @@
 #include <QTextCodec>
 #include <QMediaMetaData>
 #include <QTime>
-#include <thread>
 using namespace std;
 
 class Music: public QObject
@@ -28,10 +27,6 @@ class Music: public QObject
 signals:
     Q_INVOKABLE void positionChanged();
     Q_INVOKABLE void clearlrcview();
-//public slots:
-
-
-
 
 public:
     Music(QObject *p = 0);
@@ -39,46 +34,42 @@ public:
     //vector<vector<QString>>* list; //vector<vector<QString>> list(1,vector<QString>(1));
     QString name;
     //Q_INVOKABLE void setview(QQuickView* view2);
-    Q_INVOKABLE void startPlay(QString name);
-    Q_INVOKABLE void setview(QQmlApplicationEngine *v);
-    Q_INVOKABLE void ShowMusicList();
-    Q_INVOKABLE void lastMusic();
-    Q_INVOKABLE void nextMusic();
-    Q_INVOKABLE void pausePlay();
-    Q_INVOKABLE void setVol(int v= 80);  //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-    Q_INVOKABLE int getVol();
-    Q_INVOKABLE qint64 getEndtime();
-    Q_INVOKABLE QString getMusicTitle();
-    Q_INVOKABLE QStringList showlrc(QString name,qint64 time);
-    Q_INVOKABLE QVariant musicType(); //ï¿½Ç·ï¿½Ñ­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä¬ï¿½ï¿½ï¿½Ğ±ï¿½Ë³ï¿½ï¿½Ñ­ï¿½ï¿½
-    Q_INVOKABLE void setNowMusicPos(qint64 nowtime);
-    Q_INVOKABLE QQuickView *ViewMusicList();
+    Q_INVOKABLE void startPlay(QString name);           //¿ªÊ¼²¥·Å
+    Q_INVOKABLE void setview(QQmlApplicationEngine *v); //ÉèÖÃ¸è´ÊÊÓÍ¼
+    Q_INVOKABLE void ShowMusicList();                   //ÏÔÊ¾¸èµ¥
+    Q_INVOKABLE void lastMusic();                       //ÉÏÒ»Ê×
+    Q_INVOKABLE void nextMusic();                       //ÏÂÒ»Ê×
+    Q_INVOKABLE void pausePlay();                       //ÔİÍ£
+    Q_INVOKABLE void setVol(int v= 80);                 //ÉèÖÃÒôÁ¿
+    Q_INVOKABLE int getVol();                           //µÃµ½ÒôÁ¿
+    Q_INVOKABLE qint64 getEndtime();                    //ÉèÖÃ¸èÇú½áÊøÊ±¼ä
+    Q_INVOKABLE QString getMusicTitle();                //»ñµÃ¸èÇúÃû×Ö
+    Q_INVOKABLE QStringList showlrc(QString name,qint64 time);//ÏÔÊ¾¸è´Ê
+    Q_INVOKABLE QVariant musicType();                         //ÒôÀÖ²¥·ÅÄ£Ê½
+    Q_INVOKABLE void setNowMusicPos(qint64 nowtime);          //µ÷ÕûÒôÀÖ²¥·Å½ø¶È
+    Q_INVOKABLE QQuickView *ViewMusicList();                  //¸èµ¥ÊÓÍ¼
 
-
-
-    qint64 times();
-    void settime(qint64 time_);
-    qint64 endTime();
-    void setEndtime(qint64 settime_);
+    //ÒÔÏÂÓÃÓÚQMLÏÔÊ¾
+    qint64 times();                             //»ñµÃµ±Ç°Ê±¼ä
+    void settime(qint64 time_);                 //ÉèÖÃµ±Ç°Ê±¼ä
+    qint64 endTime();                           //»ñµÃ½áÊøÊ±¼ä
+    void setEndtime(qint64 settime_);           //ÉèÖÃ½áÊøÊ±¼ä
 
 private:
-    QString timeformat(qint64 musictime);
-    void getMusicPix(QMediaPlayer *my);
-    void clearLrc();
-    void cleraLrcView();
-    QStringList LrcList; //æ­Œè¯è¡¨
-    vector<int> timelist;
-
-    QMediaPlayer* now = NULL;
-    QMediaPlaylist* playlist;
-    //QQuickView* myView  = NULL;
-    QQmlApplicationEngine* myView  = NULL;
-    qint64 nowtime = 0;
-    qint64 endtime = 0;
-    int mysum = 0;
-    int vol = 80;//éŸ³é‡é»˜è®¤80
-    int tag = 0;
-    bool k = false;
+    QString timeformat(qint64 musictime);       //Ê±¼ä¸ñÊ½×ª»» ms->min:sec
+    void clearLrc();                            //Çå³ı¸èµ¥
+    void cleraLrcView();                        //Çå³ı¸è´ÊÊÓÍ¼
+    QStringList LrcList;                        //¸è´Ê±í
+    vector<int> timelist;                       //Ê±¼ä±í
+    QMediaPlayer* now;                          //µ±Ç°²¥·ÅÖ¸Õë
+    QMediaPlaylist* playlist;                   //²¥·ÅÁĞ±í
+    QQmlApplicationEngine* myView;              //qmlµÄÊÓÍ¼
+    qint64 nowtime;                             //µ±Ç°Ê±¼ä
+    qint64 endtime;                             //½áÊøÊ±¼ä
+    int mysum;                                  //ÓÃÓÚ¸è´ÊÊÓÍ¼µÄ¹ö¶¯
+    int vol;                                    //ÒôÁ¿Ä¬ÈÏ80
+    int tag;                                    //±ê¼Ç ÓÃÓÚ²éÕÒ¸èÇú/¸èÇúÃû
+    bool k;                                     //ÓÃÓÚÔİÍ£Óë¼ÌĞø²¥·ÅµÄÇĞ»»
 
 };
 

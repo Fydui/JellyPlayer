@@ -13,19 +13,24 @@ using namespace this_thread;
 Music::Music(QObject *p):
     QObject(p)
 {
-    this->now = new QMediaPlayer;
-    this->playlist = new QMediaPlaylist;
-    this->LrcList.clear();
-    this->timelist.clear();
+    now = new QMediaPlayer;
+    playlist = new QMediaPlaylist;
+    LrcList.clear();
+    timelist.clear();
+    nowtime = 0;
+    endtime = 0;
+    vol = 80;
+    tag = 0;
+    k = false;
 }
 
 Music::~Music()
 {
-    delete this->now;
-    delete this->playlist;
-    delete this->myView;
-    this->LrcList.clear();
-    this->timelist.clear();
+    delete now;
+    delete playlist;
+    delete myView;
+    LrcList.clear();
+    timelist.clear();
     list_.clear();
 }
 void Music::ShowMusicList()
@@ -35,7 +40,6 @@ void Music::ShowMusicList()
     _finddata_t file;
     int k,i = 1;
     long HANDLE;
-    //list_[0][0] = "";
     k = HANDLE = _findfirst( "music/*.mp3", &file );
     while( k != -1 ){
         QString str = codec->toUnicode(file.name);
@@ -56,7 +60,7 @@ void Music::startPlay(QString name)
 {
     if(this->now != NULL){
         MUSICPOS = 0;
-        for(int i = 0; i<list_[0].size(); i++){ //遍历list_
+        for(int i = 0; i<list_[0].size(); i++){     //遍历list_
             if(list_[0][i] == name){                //找到用户点击的那个是list_中的第几个(就是传进来的name)
                 delete this->playlist;              //删除之前的playlist 重new一个
                 this->playlist = new QMediaPlaylist;
@@ -70,7 +74,7 @@ void Music::startPlay(QString name)
                 this->playlist->setCurrentIndex(1);     //这函数我也不知道干啥的 有人说是设置当前音乐为第一个播放?
                 this->now->setPlaylist(this->playlist); //对now指针 设置播放列表
 
-                cleraLrcView(); //先把当前的歌词表清了
+                cleraLrcView();                         //先把当前的歌词表清了
                 QObject::connect(now,&QMediaPlayer::currentMediaChanged,[this](){
                     thisPOS= this->playlist->currentIndex();
                     cleraLrcView();
@@ -79,31 +83,27 @@ void Music::startPlay(QString name)
                     if(this->now->duration() != 0)
                         this->setEndtime(this->now->duration());  //获取当前音乐的总时长
 
-                        this->settime(position);//获得当前播放的位置(就是当前播放到哪了 单位:毫秒)
-                        QQmlContext* s_time = this->myView->rootContext();
-                        s_time->setContextProperty("mySTIME",QVariant(this->timeformat(position)));
+                    this->settime(position);                      //获得当前播放的位置(就是当前播放到哪了 单位:毫秒)
+                    QQmlContext* s_time = this->myView->rootContext();
+                    s_time->setContextProperty("mySTIME",QVariant(this->timeformat(position)));
 
-                        QQmlContext* now_progress = this->myView->rootContext();
-                        now_progress->setContextProperty("setNOW",QVariant(position));
+                    QQmlContext* now_progress = this->myView->rootContext();
+                    now_progress->setContextProperty("setNOW",QVariant(position));
 
-                        QQmlContext* e_time  = this->myView->rootContext();
-                        e_time->setContextProperty("myETIME",QVariant(this->timeformat(this->endtime)));
-                        QQmlContext* title = this->myView->rootContext();
+                    QQmlContext* e_time  = this->myView->rootContext();
+                    e_time->setContextProperty("myETIME",QVariant(this->timeformat(this->endtime)));
+                    QQmlContext* title = this->myView->rootContext();
 
-                        //int index= this->playlist->currentIndex();
-                        title->setContextProperty("myTITLE",QVariant(list_[0][thisPOS+MUSICPOS]));
-                        showlrc(list_[0][thisPOS+MUSICPOS],position);
+                    //int index= this->playlist->currentIndex();
+                    title->setContextProperty("myTITLE",QVariant(list_[0][thisPOS+MUSICPOS]));
+                    showlrc(list_[0][thisPOS+MUSICPOS],position);
 
-                        if(this->now->isAudioAvailable()){ //如果当前音乐可以播放
-                            this->tag = MUSICPOS;
-                        }
+                    if(this->now->isAudioAvailable()){            //如果当前音乐可以播放
+                        this->tag = MUSICPOS;
+                    }
                 });
-
-
-                this->setVol(this->vol);                       //音量
+                this->setVol(this->vol);                //音量
                 this->now->play();                      // Let's Play!
-
-
             }
         }
     }
@@ -198,26 +198,22 @@ void Music::setNowMusicPos(qint64 time){
 void Music::setview(QQmlApplicationEngine* v){
     this->myView = v;
 }
-/*
-void Music::setview(QQuickView *view2){
-    //this->myView = view2;
-}*/
+
 void Music::setEndtime(qint64 settime_){
     this->endtime = settime_;
 }
 
 qint64 Music::getEndtime(){return this->endtime;}
 
+qint64 Music::times(){
+    return this->nowtime;
+}
 qint64 Music::endTime(){
     return this->endtime;
 }
 
 void Music::settime(qint64 time_){
     this->nowtime = time_;
-}
-
-qint64 Music::times(){
-    return this->nowtime;
 }
 
 QString Music::timeformat(qint64 musictime){ //格式化时间 形参单位毫秒
@@ -254,7 +250,6 @@ QStringList Music::showlrc(QString name,qint64 time)
                 QString t2 = time.mid(4,2) + time.mid(7,2);
                 qint64 totime = (time.mid(1,2).toInt()*60) + t2.toInt()/100;
                 this->timelist.push_back(totime);
-
             }
         }
     }
@@ -270,7 +265,6 @@ QStringList Music::showlrc(QString name,qint64 time)
         }
 
     }
-
     return this->LrcList;
 }
 
