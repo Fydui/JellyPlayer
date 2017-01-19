@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
         libpath << QCoreApplication::libraryPaths();
         QCoreApplication::setLibraryPaths(libpath) ;*/
 
-    QGuiApplication app(argc, argv);
+      QGuiApplication app(argc, argv);
       Music* a = new Music;
       a->ShowMusicList();
       //QQuickView* view = new QQuickView;
